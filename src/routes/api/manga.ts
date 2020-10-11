@@ -24,6 +24,7 @@ router.get(
     page.on("console", (msg: ConsoleMessage): void =>
       console.log("PAGE LOG:", msg.text())
     );
+    await browser.close();
     res.send("hello")
   }
 );
