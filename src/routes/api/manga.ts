@@ -59,7 +59,7 @@ router.get(
               const artistString: JSHandle<any> = await artistElement.getProperty("innerText")
 
               return {
-                coverURL: await coverURL.jsonValue(),
+                coverUrl: await coverURL.jsonValue(),
                 titleString: await titleString.jsonValue(),
                 artistString: await artistString.jsonValue(),
               };
