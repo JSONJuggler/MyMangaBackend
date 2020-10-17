@@ -10,78 +10,83 @@ import puppeteer, {
 // create router
 const router: Router = express.Router();
 
-// @route GET api/manga
-// @description Route to get manga (test)
+// @route GET api/manga/search
+// @description Route to search manga (test)
 // @access Public
 router.get(
   "/search",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
     const searchRequest: any = req.query;
+    const { w, rd, status, order, genre } = searchRequest
+
     const browser: Browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
+
     const page: Page = await browser.newPage();
+
     page.on("console", (msg: ConsoleMessage): void =>
       console.log("PAGE LOG:", msg.text())
     );
-    await page.goto("http://www.mangapanda.com/");
 
-    await page.type("#searchbox", searchRequest.manga);
+    await page.goto(
+      "http://www.mangapanda.com/search/?w="
+      + w.trim().replace(" ", "+")
+      + "&rd=" + rd
+      + "&status=" + status
+      + "&order=" + order
+      + "&genre=" + genre
+    )
 
     // manually added this type to the Page interface
-    await page.waitForTimeout(3000)
+    // await page.waitForTimeout(3000)
 
     const searchResult: Array<ElementHandle> = await page.$$(
-      "div.ac_results > ul > li"
+      "div#mangaresults > div"
     );
 
     const searchResultMapping: Array<Promise<any>> = searchResult.map(
       async (result: ElementHandle): Promise<any> => {
-        const coverElement: ElementHandle | null = await result.$(
-          "img"
+        const coverUrl: string | null = await result.$eval(
+          "div.imgsearchresults", el => el.getAttribute("style")
+        )
+
+        const parsedUrl = coverUrl?.slice(22, -2)
+
+        const titleElement: ElementHandle | null = await result.$(
+          "a"
         );
 
-        if (coverElement) {
-          const coverURL: JSHandle<any> = await coverElement.getProperty(
-            "src"
-          );
+        if (titleElement) {
+          const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
 
-          const titleElement: ElementHandle | null = await result.$(
-            "strong"
-          );
+          const linkString: JSHandle<any> = await titleElement.getProperty("href")
 
-          if (titleElement) {
-            const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
+          const chapterCountElement: ElementHandle | null = await result.$("div.chapter_count")
 
-            const artistElement: ElementHandle | null = await result.$("i")
+          if (chapterCountElement) {
+            const chapterCountString: JSHandle<any> = await chapterCountElement.getProperty("innerText")
 
-            if (artistElement) {
-              const artistString: JSHandle<any> = await artistElement.getProperty("innerText")
+            const mangaTypeElement: ElementHandle | null = await result.$("div.manga_type")
 
-              return {
-                coverUrl: await coverURL.jsonValue(),
-                titleString: await titleString.jsonValue(),
-                artistString: await artistString.jsonValue(),
-              };
-            }
-          }
-        } else {
-          const titleElement: ElementHandle | null = await result.$(
-            "strong"
-          );
+            if (mangaTypeElement) {
+              const mangaTypeString: JSHandle<any> = await mangaTypeElement.getProperty("innerText")
 
-          if (titleElement) {
-            const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
+              const mangaGenreElement: ElementHandle | null = await result.$("div.manga_genre")
 
-            const artistElement: ElementHandle | null = await result.$("i")
+              if (mangaGenreElement) {
+                const mangaGenreString: JSHandle<any> = await mangaGenreElement.getProperty("innerText")
 
-            if (artistElement) {
-              const artistString: JSHandle<any> = await artistElement.getProperty("innerText")
-
-              return {
-                titleString: await titleString.jsonValue(),
-                artistString: await artistString.jsonValue(),
-              };
+                return {
+                  coverUrl: await parsedUrl,
+                  titleString: await titleString.jsonValue(),
+                  linkString: await linkString.jsonValue(),
+                  chapterCountString: await chapterCountString.jsonValue(),
+                  mangaTypeString: await mangaTypeString.jsonValue(),
+                  mangaGenreString: await mangaGenreString.jsonValue(),
+                };
+              }
             }
           }
         }
