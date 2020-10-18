@@ -143,6 +143,12 @@ router.get(
 
     const artistHandle: JSHandle<any> | undefined = await artistElement?.getProperty("innerText")
 
+    const summaryElement: ElementHandle | null = await page.$(
+      "div#readmangasum > p"
+    );
+
+    const summaryHandle: JSHandle<any> | undefined = await summaryElement?.getProperty("innerText")
+
     const tableHead: Array<ElementHandle> = await page.$$(
       "tr.table_head ~ tr"
     );
@@ -189,12 +195,16 @@ router.get(
 
     const artistString = await artistHandle?.jsonValue();
 
+    const summaryString = await summaryHandle?.jsonValue();
+
     const chapters = await Promise.all(tableHeadMapping);
 
     const result = {
       coverUrl,
+      requestUrl,
       authorString,
       artistString,
+      summaryString,
       chapters
     }
 
