@@ -100,4 +100,107 @@ router.get(
     res.send(results)
   }
 );
+
+// @route GET api/manga/details
+// @description Route to get manga details
+// @access Public
+router.get(
+  "/details",
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+    const { requestUrl }: any = req.query;
+
+    const browser: Browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+
+    const page: Page = await browser.newPage();
+
+    page.on("console", (msg: ConsoleMessage): void =>
+      console.log("PAGE LOG:", msg.text())
+    );
+
+    await page.goto(requestUrl);
+
+    // manually added this type to the Page interface
+    // await page.waitForTimeout(3000)
+
+    const coverElement: ElementHandle | null = await page.$(
+      "div#mangaimg > img"
+    );
+
+    const coverHandle: JSHandle<any> | undefined = await coverElement?.getProperty("src")
+
+    const authorElement: ElementHandle | null = await page.$(
+      "div#mangaproperties  tbody  tr:nth-child(5)  td:nth-child(2)"
+    );
+
+    const authorHandle: JSHandle<any> | undefined = await authorElement?.getProperty("innerText")
+
+    const artistElement: ElementHandle | null = await page.$(
+      "div#mangaproperties table tbody tr:nth-child(6) td:nth-child(2)"
+    );
+
+    const artistHandle: JSHandle<any> | undefined = await artistElement?.getProperty("innerText")
+
+    const tableHead: Array<ElementHandle> = await page.$$(
+      "tr.table_head ~ tr"
+    );
+
+    const tableHeadMapping: Array<Promise<any>> = tableHead.map(
+      async (result: ElementHandle): Promise<any> => {
+
+        const titleElement: ElementHandle | null = await result.$("td:first-child")
+
+        if (titleElement) {
+
+          const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
+
+          const chapterNumberElement: ElementHandle | null = await result.$(
+            "a"
+          );
+
+          if (chapterNumberElement) {
+            const chapterNumberString: JSHandle<any> = await chapterNumberElement.getProperty("innerText")
+
+            const linkString: JSHandle<any> = await chapterNumberElement.getProperty("href")
+
+            const dateElement: ElementHandle | null = await result.$("td:nth-child(2)")
+
+            if (dateElement) {
+
+              const dateString: JSHandle<any> = await dateElement.getProperty("innerText")
+
+              return {
+                titleString: await titleString.jsonValue(),
+                linkString: await linkString.jsonValue(),
+                chapterNumberString: await chapterNumberString.jsonValue(),
+                dateString: await dateString.jsonValue(),
+              };
+            }
+          }
+        }
+      }
+    );
+
+    const coverUrl = await coverHandle?.jsonValue();
+
+    const authorString = await authorHandle?.jsonValue();
+
+    const artistString = await artistHandle?.jsonValue();
+
+    const chapters = await Promise.all(tableHeadMapping);
+
+    const result = {
+      coverUrl,
+      authorString,
+      artistString,
+      chapters
+    }
+
+    await browser.close();
+
+    res.send(result)
+  }
+);
 module.exports = router;
