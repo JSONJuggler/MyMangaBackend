@@ -36,7 +36,8 @@ router.get(
       + "&rd=" + rd
       + "&status=" + status
       + "&order=" + order
-      + "&genre=" + genre
+      + "&genre=" + genre,
+      { waitUntil: "domcontentloaded", timeout: 10000 }
     )
 
     // manually added this type to the Page interface
@@ -120,7 +121,7 @@ router.get(
     //   console.log("PAGE LOG:", msg.text())
     // );
 
-    await page.goto(requestUrl);
+    await page.goto(requestUrl, { waitUntil: "domcontentloaded", timeout: 10000 });
 
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
