@@ -213,4 +213,132 @@ router.get(
     res.send(result)
   }
 );
+
+// @route GET api/manga/pages
+// @description Route to get manga pages
+// @access Public
+router.get(
+  "/pages",
+  async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+    const { chapterLandingUrl }: any = req.query;
+
+    const browser: Browser = await puppeteer.launch({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
+
+    const page: Page = await browser.newPage();
+
+    await page.setUserAgent(
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
+    );
+
+
+    // page.on("console", (msg: ConsoleMessage): void =>
+    //   console.log("PAGE LOG:", msg.text())
+    // );
+
+    // console.log(chapterLandingUrl)
+    try {
+      await page.goto(chapterLandingUrl, { waitUntil: "domcontentloaded", timeout: 3000 });
+    } catch (e) {
+
+      await page.reload({ waitUntil: "domcontentloaded", timeout: 3000 });
+    }
+
+    // manually added this type to the Page interface
+    // await page.waitForTimeout(3000)
+
+    const chapterLandingElement: ElementHandle | null = await page.$(
+      "img#img"
+    );
+
+    const chapterLandingHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("src")
+
+    const maxWidthHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("width")
+
+    const maxHeightHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("height")
+
+    const chapterPageSelectorOptions: Array<ElementHandle> = await page.$$(
+      "select#pageMenu > option"
+    );
+
+
+    const chapterPageSelectorOptionsMapping: Array<Promise<any>> = chapterPageSelectorOptions.map(
+      async (result: ElementHandle): Promise<any> => {
+
+        try {
+
+          const chapterPageUrlHandle: JSHandle<any> = await result.getProperty("value")
+
+          const chapterPageUrlString = await chapterPageUrlHandle?.jsonValue()
+
+          return await chapterPageUrlString
+
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    );
+
+    const chapterPageUrls = await Promise.all(chapterPageSelectorOptionsMapping)
+
+    const chapterImageUrls = [];
+
+    for (let i = 0; i < chapterPageUrls.length; i++) {
+      try {
+
+        await page.goto(
+          "http://www.mangapanda.com" + chapterPageUrls[i],
+          { waitUntil: "domcontentloaded", timeout: 3000 }
+        );
+
+        const chapterImageElement: ElementHandle | null = await page.$(
+          "img#img"
+        );
+
+        const chapterImageHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("src")
+
+        const chapterImageUrl: any = await chapterImageHandle?.jsonValue()
+
+        chapterImageUrls.push(chapterImageUrl)
+        // console.log("scrape of " + chapterPageUrls[i] + "success")
+      } catch (e) {
+        await page.reload({ waitUntil: "load", timeout: 3000 });
+        console.log(e)
+        console.log("page reloaded")
+
+        const chapterImageElement: ElementHandle | null = await page.$(
+          "img#img"
+        );
+
+        const chapterImageHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("src")
+
+        const chapterImageUrl = await chapterImageHandle?.jsonValue()
+
+        chapterImageUrls.push(chapterImageUrl)
+        // console.log("scrape of " + chapterPageUrls[i] + "success")
+      }
+    }
+
+    const chapterLandingPageImageUrl = await chapterLandingHandle?.jsonValue();
+
+    const imageMaxWidth = await maxWidthHandle?.jsonValue();
+
+    const imageMaxHeight = await maxHeightHandle?.jsonValue();
+
+    const chapterPageImageUrls = await Promise.all(chapterPageSelectorOptionsMapping);
+
+    const result = {
+      imageMaxWidth,
+      imageMaxHeight,
+      chapterImageUrls,
+    }
+
+    await browser.close();
+
+    res.send(result)
+  }
+);
+
 module.exports = router;
