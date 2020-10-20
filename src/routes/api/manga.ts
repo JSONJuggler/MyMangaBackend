@@ -26,9 +26,9 @@ router.get(
 
     const page: Page = await browser.newPage();
 
-    page.on("console", (msg: ConsoleMessage): void =>
-      console.log("PAGE LOG:", msg.text())
-    );
+    // page.on("console", (msg: ConsoleMessage): void =>
+    //   console.log("PAGE LOG:", msg.text())
+    // );
 
     await page.goto(
       "http://www.mangapanda.com/search/?w="
@@ -116,9 +116,9 @@ router.get(
 
     const page: Page = await browser.newPage();
 
-    page.on("console", (msg: ConsoleMessage): void =>
-      console.log("PAGE LOG:", msg.text())
-    );
+    // page.on("console", (msg: ConsoleMessage): void =>
+    //   console.log("PAGE LOG:", msg.text())
+    // );
 
     await page.goto(requestUrl);
 
