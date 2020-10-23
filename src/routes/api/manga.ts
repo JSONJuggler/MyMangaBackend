@@ -250,20 +250,9 @@ router.get(
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
 
-    const chapterLandingElement: ElementHandle | null = await page.$(
-      "img#img"
-    );
-
-    const chapterLandingHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("src")
-
-    const maxWidthHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("width")
-
-    const maxHeightHandle: JSHandle<any> | undefined = await chapterLandingElement?.getProperty("height")
-
     const chapterPageSelectorOptions: Array<ElementHandle> = await page.$$(
       "select#pageMenu > option"
     );
-
 
     const chapterPageSelectorOptionsMapping: Array<Promise<any>> = chapterPageSelectorOptions.map(
       async (result: ElementHandle): Promise<any> => {
@@ -300,14 +289,22 @@ router.get(
 
         const chapterImageHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("src")
 
+        const widthHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("width")
+
+        const heightHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("height")
+
+        const imageWidth = await widthHandle?.jsonValue();
+
+        const imageHeight = await heightHandle?.jsonValue();
+
         const chapterImageUrl: any = await chapterImageHandle?.jsonValue()
 
-        chapterImageUrls.push(chapterImageUrl)
+        chapterImageUrls.push({ chapterImageUrl, imageWidth, imageHeight })
         // console.log("scrape of " + chapterPageUrls[i] + "success")
       } catch (e) {
         await page.reload({ waitUntil: "load", timeout: 3000 });
-        console.log(e)
-        console.log("page reloaded")
+        // console.log(e)
+        // console.log("page reloaded")
 
         const chapterImageElement: ElementHandle | null = await page.$(
           "img#img"
@@ -315,24 +312,22 @@ router.get(
 
         const chapterImageHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("src")
 
+        const widthHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("width")
+
+        const heightHandle: JSHandle<any> | undefined = await chapterImageElement?.getProperty("height")
+
+        const imageWidth = await widthHandle?.jsonValue();
+
+        const imageHeight = await heightHandle?.jsonValue();
+
         const chapterImageUrl = await chapterImageHandle?.jsonValue()
 
-        chapterImageUrls.push(chapterImageUrl)
+        chapterImageUrls.push({ chapterImageUrl, imageWidth, imageHeight })
         // console.log("scrape of " + chapterPageUrls[i] + "success")
       }
     }
 
-    const chapterLandingPageImageUrl = await chapterLandingHandle?.jsonValue();
-
-    const imageMaxWidth = await maxWidthHandle?.jsonValue();
-
-    const imageMaxHeight = await maxHeightHandle?.jsonValue();
-
-    const chapterPageImageUrls = await Promise.all(chapterPageSelectorOptionsMapping);
-
     const result = {
-      imageMaxWidth,
-      imageMaxHeight,
       chapterImageUrls,
     }
 
