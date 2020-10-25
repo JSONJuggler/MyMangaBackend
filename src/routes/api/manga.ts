@@ -331,7 +331,7 @@ router.get(
       chapterPageUrls,
       chapterImageUrls,
     }
-    console.log(result)
+    // console.log(result)
     await browser.close();
 
     res.send(result)
