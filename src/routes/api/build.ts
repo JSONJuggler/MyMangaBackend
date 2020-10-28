@@ -11,10 +11,10 @@ import Crawler from "../../mangapanda/crawler";
 // create router
 const router: Router = express.Router();
 
-// @route GET api/build/
+// @route POST api/build/
 // @description Route to build manga database (no images)
 // @access Public
-router.get(
+router.post(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
