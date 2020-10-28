@@ -23,8 +23,15 @@ export default class Crawler {
 
   crawl(site: Site) {
     (async () => {
-      const browser: Browser = await puppeteer.launch();
+      const browser: Browser = await puppeteer.launch({
+        args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      });
+
       const page: Page = await browser.newPage();
+
+      await page.setUserAgent(
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
+      );
 
       await this.crawlInternal(page, `${this.baseUrl}`, site.children);
 
@@ -43,8 +50,8 @@ export default class Crawler {
     let childrenLinks: Array<string> = await page.evaluate(sel => {
       let ret = [];
       for (let item of document.querySelectorAll(sel)) {
-        let href = item.getAttribute("href");
-        ret.push(href);
+        let href = item.getAttribute("value");
+        ret.push("http://www.mangapanda.com/" + href);
       }
       return ret;
     }, selectors[0].selector);
