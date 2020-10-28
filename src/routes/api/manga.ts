@@ -59,38 +59,30 @@ router.get(
           "a"
         );
 
-        if (titleElement) {
-          const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
+        const titleString: JSHandle<any> = await titleElement!.getProperty("innerText")
 
-          const linkString: JSHandle<any> = await titleElement.getProperty("href")
+        const linkString: JSHandle<any> = await titleElement!.getProperty("href")
 
-          const chapterCountElement: ElementHandle | null = await result.$("div.chapter_count")
+        const chapterCountElement: ElementHandle | null = await result.$("div.chapter_count")
 
-          if (chapterCountElement) {
-            const chapterCountString: JSHandle<any> = await chapterCountElement.getProperty("innerText")
+        const chapterCountString: JSHandle<any> = await chapterCountElement!.getProperty("innerText")
 
-            const mangaTypeElement: ElementHandle | null = await result.$("div.manga_type")
+        const mangaTypeElement: ElementHandle | null = await result.$("div.manga_type")
 
-            if (mangaTypeElement) {
-              const mangaTypeString: JSHandle<any> = await mangaTypeElement.getProperty("innerText")
+        const mangaTypeString: JSHandle<any> = await mangaTypeElement!.getProperty("innerText")
 
-              const mangaGenreElement: ElementHandle | null = await result.$("div.manga_genre")
+        const mangaGenreElement: ElementHandle | null = await result.$("div.manga_genre")
 
-              if (mangaGenreElement) {
-                const mangaGenreString: JSHandle<any> = await mangaGenreElement.getProperty("innerText")
+        const mangaGenreString: JSHandle<any> = await mangaGenreElement!.getProperty("innerText")
 
-                return {
-                  coverUrl: await parsedUrl,
-                  titleString: await titleString.jsonValue(),
-                  linkString: await linkString.jsonValue(),
-                  chapterCountString: await chapterCountString.jsonValue(),
-                  mangaTypeString: await mangaTypeString.jsonValue(),
-                  mangaGenreString: await mangaGenreString.jsonValue(),
-                };
-              }
-            }
-          }
-        }
+        return {
+          coverUrl: await parsedUrl,
+          titleString: await titleString.jsonValue(),
+          linkString: await linkString.jsonValue(),
+          chapterCountString: await chapterCountString.jsonValue(),
+          mangaTypeString: await mangaTypeString.jsonValue(),
+          mangaGenreString: await mangaGenreString.jsonValue(),
+        };
       }
     );
 
@@ -159,34 +151,26 @@ router.get(
 
         const titleElement: ElementHandle | null = await result.$("td:first-child")
 
-        if (titleElement) {
+        const titleString: JSHandle<any> = await titleElement!.getProperty("innerText")
 
-          const titleString: JSHandle<any> = await titleElement.getProperty("innerText")
+        const chapterNumberElement: ElementHandle | null = await result.$(
+          "a"
+        );
 
-          const chapterNumberElement: ElementHandle | null = await result.$(
-            "a"
-          );
+        const chapterNumberString: JSHandle<any> = await chapterNumberElement!.getProperty("innerText")
 
-          if (chapterNumberElement) {
-            const chapterNumberString: JSHandle<any> = await chapterNumberElement.getProperty("innerText")
+        const linkString: JSHandle<any> = await chapterNumberElement!.getProperty("href")
 
-            const linkString: JSHandle<any> = await chapterNumberElement.getProperty("href")
+        const dateElement: ElementHandle | null = await result.$("td:nth-child(2)")
 
-            const dateElement: ElementHandle | null = await result.$("td:nth-child(2)")
+        const dateString: JSHandle<any> = await dateElement!.getProperty("innerText")
 
-            if (dateElement) {
-
-              const dateString: JSHandle<any> = await dateElement.getProperty("innerText")
-
-              return {
-                titleString: await titleString.jsonValue(),
-                linkString: await linkString.jsonValue(),
-                chapterNumberString: await chapterNumberString.jsonValue(),
-                dateString: await dateString.jsonValue(),
-              };
-            }
-          }
-        }
+        return {
+          titleString: await titleString.jsonValue(),
+          linkString: await linkString.jsonValue(),
+          chapterNumberString: await chapterNumberString.jsonValue(),
+          dateString: await dateString.jsonValue(),
+        };
       }
     );
 
@@ -233,7 +217,6 @@ router.get(
     await page.setUserAgent(
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
     );
-
 
     // page.on("console", (msg: ConsoleMessage): void =>
     //   console.log("PAGE LOG:", msg.text())
