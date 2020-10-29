@@ -12,7 +12,10 @@ router.post(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
 
     const cra = new Crawler(req.body.baseUrl)
-    cra.crawl(req.body.site)
+
+    await cra.crawl(req.body.site)
+
+    console.log(cra.result)
 
   }
 );
