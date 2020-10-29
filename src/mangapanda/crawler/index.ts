@@ -51,7 +51,7 @@ export default class Crawler {
       let ret = [];
       for (let item of document.querySelectorAll(sel)) {
         let href = item.getAttribute("value");
-        ret.push("http://www.mangapanda.com/" + href);
+          ret.push("http://www.mangapanda.com" + href);
       }
       return ret;
     }, selectors[0].selector);
