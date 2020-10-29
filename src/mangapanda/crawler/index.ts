@@ -8,7 +8,7 @@ import puppeteer, {
 
 type Selector = {
   name: string
-  selector: Array<string>
+  selector: string
   children: Array<Selector>
 }
 
