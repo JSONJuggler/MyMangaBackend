@@ -7,7 +7,9 @@
     "@types/puppeteer": "^3.0.2",
     "cookie": "^0.4.1",
     "express": "^4.17.1",
-    "puppeteer": "^5.3.1"
+    "puppeteer": "^5.3.1",
+    "remark": "^13.0.0",
+    "remark-html": "^13.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.7",
