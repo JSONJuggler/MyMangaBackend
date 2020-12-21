@@ -379,7 +379,7 @@ router.get(
 router.get(
   "/page",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const { chapter }: any = req.query;
+    const { pageUrl }: any = req.query;
 
     const browser: Browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
@@ -397,7 +397,7 @@ router.get(
 
     // console.log(chapterLandingUrl)
     try {
-      await page.goto("http://www.mangareader.net" + chapter, {
+      await page.goto("http://www.mangareader.net" + pageUrl, {
         waitUntil: "domcontentloaded",
         timeout: 3000,
       });
