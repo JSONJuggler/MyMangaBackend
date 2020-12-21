@@ -1,7 +1,7 @@
-import express, { Application } from "express";
-import fs from "fs";
-import remark from "remark";
-import html from "remark-html";
+import express, { Application } from 'express';
+import fs from 'fs';
+import remark from 'remark';
+import html from 'remark-html';
 
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
@@ -10,10 +10,10 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  let path = __dirname + "/../README.md";
+app.get('/', (req, res) => {
+  let path = __dirname + '/../README.md';
 
-  fs.readFile(path, "utf8", async (err, data) => {
+  fs.readFile(path, 'utf8', async (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -23,5 +23,5 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api/manga", require("./routes/api/manga"));
-app.use("/api/build", require("./routes/api/build"));
+app.use('/api/manga', require('./routes/api/manga'));
+app.use('/api/build', require('./routes/api/build'));
