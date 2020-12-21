@@ -7,12 +7,12 @@ import puppeteer, {
 } from "puppeteer";
 
 type Selector = {
-  name: string
-  selector: string
-  children: Array<Selector>
-}
+  name: string;
+  selector: string;
+  children: Array<Selector>;
+};
 
-type Site = Selector
+type Site = Selector;
 
 export default class Crawler {
   private baseUrl: string;
@@ -38,30 +38,28 @@ export default class Crawler {
 
     browser.close();
 
-    return this.result
+    return this.result;
   }
 
   async crawlInternal(page: Page, path: string, selectors: Array<Selector>) {
-
-    await page.goto(path, { waitUntil: 'domcontentloaded' });
+    await page.goto(path, { waitUntil: "domcontentloaded" });
 
     if (selectors.length === 0) {
       return;
     }
 
     if (selectors[0].selector === "img#img") {
-      this.chpCounter++
-      let imageLink: string = await page.evaluate(sel => {
-        const item = document.querySelector(sel)
-        const img = item.getAttribute("src")
-        return img
+      this.chpCounter++;
+      let imageLink: string = await page.evaluate((sel) => {
+        const item = document.querySelector(sel);
+        const img = item.getAttribute("src");
+        return img;
       }, selectors[0].selector);
 
-      this.result[this.chpCounter] = imageLink
-
+      this.result[this.chpCounter] = imageLink;
     } else {
       this.chpCounter = 0;
-      let childrenLinks: Array<string> = await page.evaluate(sel => {
+      let childrenLinks: Array<string> = await page.evaluate((sel) => {
         let ret = [];
         for (let item of document.querySelectorAll(sel)) {
           let href = item.getAttribute("value");
@@ -73,10 +71,8 @@ export default class Crawler {
       // this.result[path] = childrenLinks
 
       for (let item of childrenLinks) {
-        await this.crawlInternal(page,
-          `${item}`, selectors[0].children)
+        await this.crawlInternal(page, `${item}`, selectors[0].children);
       }
     }
   }
-
 }

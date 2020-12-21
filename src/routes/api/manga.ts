@@ -1,11 +1,11 @@
-import express, { Request, Response, NextFunction, Router } from 'express';
+import express, { Request, Response, NextFunction, Router } from "express";
 import puppeteer, {
   Page,
   Browser,
   ConsoleMessage,
   ElementHandle,
-  JSHandle
-} from 'puppeteer';
+  JSHandle,
+} from "puppeteer";
 
 // create router
 const router: Router = express.Router();
@@ -14,13 +14,13 @@ const router: Router = express.Router();
 // @description Route to search manga (test)
 // @access Public
 router.get(
-  '/search',
+  "/search",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const searchRequest: any = req.query;
     const { w, rd, status, order, genre } = searchRequest;
 
     const browser: Browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
     const page: Page = await browser.newPage();
@@ -30,24 +30,24 @@ router.get(
     // );
 
     await page.goto(
-      'http://www.mangareader.net/search/?w=' +
-        w.trim().replace(' ', '+') +
-        '&rd=' +
+      "http://www.mangareader.net/search/?w=" +
+        w.trim().replace(" ", "+") +
+        "&rd=" +
         rd +
-        '&status=' +
+        "&status=" +
         status +
-        '&order=' +
+        "&order=" +
         order +
-        '&genre=' +
+        "&genre=" +
         genre,
-      { waitUntil: 'domcontentloaded', timeout: 10000 }
+      { waitUntil: "domcontentloaded", timeout: 10000 }
     );
 
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
 
     const searchResult: Array<ElementHandle> = await page.$$(
-      'div#ares > div.d54'
+      "div#ares > div.d54"
     );
 
     const searchResultMapping: Array<Promise<any>> = searchResult.map(
@@ -55,46 +55,46 @@ router.get(
         const coverUrl:
           | string
           | null = await result.$eval(
-          'table > tbody > tr > td:nth-child(2) > div.d56',
-          el => el.getAttribute('style')
+          "table > tbody > tr > td:nth-child(2) > div.d56",
+          (el) => el.getAttribute("style")
         );
 
         const parsedUrl = coverUrl?.slice(22, -2);
 
         const titleElement: ElementHandle | null = await result.$(
-          'div.d57 > a'
+          "div.d57 > a"
         );
 
         const titleString: JSHandle<any> = await titleElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         const linkString: JSHandle<any> = await titleElement!.getProperty(
-          'href'
+          "href"
         );
 
         const chapterCountElement: ElementHandle | null = await result.$(
-          'div.d58'
+          "div.d58"
         );
 
         const chapterCountString: JSHandle<any> = await chapterCountElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         const mangaTypeElement: ElementHandle | null = await result.$(
-          'div.d59'
+          "div.d59"
         );
 
         const mangaTypeString: JSHandle<any> = await mangaTypeElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         const mangaGenreElement: ElementHandle | null = await result.$(
-          'div.d60'
+          "div.d60"
         );
 
         const mangaGenreString: JSHandle<any> = await mangaGenreElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         return {
@@ -103,7 +103,7 @@ router.get(
           linkString: await linkString.jsonValue(),
           chapterCountString: await chapterCountString.jsonValue(),
           mangaTypeString: await mangaTypeString.jsonValue(),
-          mangaGenreString: await mangaGenreString.jsonValue()
+          mangaGenreString: await mangaGenreString.jsonValue(),
         };
       }
     );
@@ -120,12 +120,12 @@ router.get(
 // @description Route to get manga details
 // @access Public
 router.get(
-  '/details',
+  "/details",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { requestUrl }: any = req.query;
 
     const browser: Browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
     const page: Page = await browser.newPage();
@@ -135,42 +135,42 @@ router.get(
     // );
 
     await page.goto(requestUrl, {
-      waitUntil: 'domcontentloaded',
-      timeout: 10000
+      waitUntil: "domcontentloaded",
+      timeout: 10000,
     });
 
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
 
-    const coverElement: ElementHandle | null = await page.$('div#d38 > img');
+    const coverElement: ElementHandle | null = await page.$("div#d38 > img");
 
     const coverHandle:
       | JSHandle<any>
-      | undefined = await coverElement?.getProperty('src');
+      | undefined = await coverElement?.getProperty("src");
 
     const authorElement: ElementHandle | null = await page.$(
-      'div.d39  tbody  tr:nth-child(5)  td:nth-child(2)'
+      "div.d39  tbody  tr:nth-child(5)  td:nth-child(2)"
     );
 
     const authorHandle:
       | JSHandle<any>
-      | undefined = await authorElement?.getProperty('innerText');
+      | undefined = await authorElement?.getProperty("innerText");
 
     const artistElement: ElementHandle | null = await page.$(
-      'div.d39 table tbody tr:nth-child(6) td:nth-child(2)'
+      "div.d39 table tbody tr:nth-child(6) td:nth-child(2)"
     );
 
     const artistHandle:
       | JSHandle<any>
-      | undefined = await artistElement?.getProperty('innerText');
+      | undefined = await artistElement?.getProperty("innerText");
 
-    const summaryElement: ElementHandle | null = await page.$('div.d46 > p');
+    const summaryElement: ElementHandle | null = await page.$("div.d46 > p");
 
     const summaryHandle:
       | JSHandle<any>
-      | undefined = await summaryElement?.getProperty('innerText');
+      | undefined = await summaryElement?.getProperty("innerText");
 
-    const tableHead: Array<ElementHandle> = await page.$$('tr.d49 ~ tr');
+    const tableHead: Array<ElementHandle> = await page.$$("tr.d49 ~ tr");
 
     const tableHeadMapping: Array<Promise<any>> = tableHead.map(
       async (result: ElementHandle): Promise<any> => {
@@ -184,29 +184,29 @@ router.get(
 
         // const titleString: JSHandle<any> = await titleElement!.getProperty("innerText")
 
-        const chapterNumberElement: ElementHandle | null = await result.$('a');
+        const chapterNumberElement: ElementHandle | null = await result.$("a");
 
         const chapterNumberString: JSHandle<any> = await chapterNumberElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         const linkString: JSHandle<any> = await chapterNumberElement!.getProperty(
-          'href'
+          "href"
         );
 
         const dateElement: ElementHandle | null = await result.$(
-          'td:nth-child(2)'
+          "td:nth-child(2)"
         );
 
         const dateString: JSHandle<any> = await dateElement!.getProperty(
-          'innerText'
+          "innerText"
         );
 
         return {
           // titleString: await titleString.jsonValue(),
           linkString: await linkString.jsonValue(),
           chapterNumberString: await chapterNumberString.jsonValue(),
-          dateString: await dateString.jsonValue()
+          dateString: await dateString.jsonValue(),
         };
       }
     );
@@ -227,7 +227,7 @@ router.get(
       authorString,
       artistString,
       summaryString,
-      chapters
+      chapters,
     };
 
     await browser.close();
@@ -240,18 +240,18 @@ router.get(
 // @description Route to get manga pages
 // @access Public
 router.get(
-  '/pages',
+  "/pages",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { chapterLandingUrl }: any = req.query;
 
     const browser: Browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
     const page: Page = await browser.newPage();
 
     await page.setUserAgent(
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
     );
 
     // page.on("console", (msg: ConsoleMessage): void =>
@@ -261,18 +261,18 @@ router.get(
     // console.log(chapterLandingUrl)
     try {
       await page.goto(chapterLandingUrl, {
-        waitUntil: 'domcontentloaded',
-        timeout: 3000
+        waitUntil: "domcontentloaded",
+        timeout: 3000,
       });
     } catch (e) {
-      await page.reload({ waitUntil: 'domcontentloaded', timeout: 3000 });
+      await page.reload({ waitUntil: "domcontentloaded", timeout: 3000 });
     }
 
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
 
     const chapterPageSelectorOptions: Array<ElementHandle> = await page.$$(
-      'select#chm > option'
+      "select#chm > option"
     );
 
     const chapterPageSelectorOptionsMapping: Array<
@@ -281,7 +281,7 @@ router.get(
       async (result: ElementHandle): Promise<any> => {
         try {
           const chapterPageUrlHandle: JSHandle<any> = await result.getProperty(
-            'value'
+            "value"
           );
 
           const chapterPageUrlString = await chapterPageUrlHandle?.jsonValue();
@@ -301,26 +301,26 @@ router.get(
 
     for (let i = 0; i < 6; i++) {
       try {
-        await page.goto('http://www.mangareader.net' + chapterPageUrls[i], {
-          waitUntil: 'domcontentloaded',
-          timeout: 3000
+        await page.goto("http://www.mangareader.net" + chapterPageUrls[i], {
+          waitUntil: "domcontentloaded",
+          timeout: 3000,
         });
 
         const chapterImageElement: ElementHandle | null = await page.$(
-          'img#ci'
+          "img#ci"
         );
 
         const chapterImageHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('src');
+          | undefined = await chapterImageElement?.getProperty("src");
 
         const widthHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('width');
+          | undefined = await chapterImageElement?.getProperty("width");
 
         const heightHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('height');
+          | undefined = await chapterImageElement?.getProperty("height");
 
         const imageWidth = await widthHandle?.jsonValue();
 
@@ -331,25 +331,25 @@ router.get(
         chapterImageUrls.push({ chapterImageUrl, imageWidth, imageHeight });
         // console.log("scrape of " + chapterPageUrls[i] + "success")
       } catch (e) {
-        await page.reload({ waitUntil: 'load', timeout: 3000 });
+        await page.reload({ waitUntil: "load", timeout: 3000 });
         // console.log(e)
         // console.log("page reloaded")
 
         const chapterImageElement: ElementHandle | null = await page.$(
-          'img#img'
+          "img#img"
         );
 
         const chapterImageHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('src');
+          | undefined = await chapterImageElement?.getProperty("src");
 
         const widthHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('width');
+          | undefined = await chapterImageElement?.getProperty("width");
 
         const heightHandle:
           | JSHandle<any>
-          | undefined = await chapterImageElement?.getProperty('height');
+          | undefined = await chapterImageElement?.getProperty("height");
 
         const imageWidth = await widthHandle?.jsonValue();
 
@@ -364,7 +364,7 @@ router.get(
 
     const result = {
       chapterPageUrls,
-      chapterImageUrls
+      chapterImageUrls,
     };
     // console.log(result)
     await browser.close();
@@ -377,18 +377,18 @@ router.get(
 // @description Route to get manga pages
 // @access Public
 router.get(
-  '/page',
+  "/page",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { chapter }: any = req.query;
 
     const browser: Browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
 
     const page: Page = await browser.newPage();
 
     await page.setUserAgent(
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
     );
 
     // page.on("console", (msg: ConsoleMessage): void =>
@@ -397,31 +397,31 @@ router.get(
 
     // console.log(chapterLandingUrl)
     try {
-      await page.goto('http://www.mangareader.net' + chapter, {
-        waitUntil: 'domcontentloaded',
-        timeout: 3000
+      await page.goto("http://www.mangareader.net" + chapter, {
+        waitUntil: "domcontentloaded",
+        timeout: 3000,
       });
     } catch (e) {
-      await page.reload({ waitUntil: 'domcontentloaded', timeout: 3000 });
+      await page.reload({ waitUntil: "domcontentloaded", timeout: 3000 });
     }
 
     // manually added this type to the Page interface
     // await page.waitForTimeout(3000)
 
     try {
-      const chapterImageElement: ElementHandle | null = await page.$('img#ci');
+      const chapterImageElement: ElementHandle | null = await page.$("img#ci");
 
       const chapterImageHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('src');
+        | undefined = await chapterImageElement?.getProperty("src");
 
       const widthHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('width');
+        | undefined = await chapterImageElement?.getProperty("width");
 
       const heightHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('height');
+        | undefined = await chapterImageElement?.getProperty("height");
 
       const imageWidth = await widthHandle?.jsonValue();
 
@@ -433,23 +433,23 @@ router.get(
       await browser.close();
       res.send({ chapterImageUrl, imageWidth, imageHeight });
     } catch (e) {
-      await page.reload({ waitUntil: 'load', timeout: 3000 });
+      await page.reload({ waitUntil: "load", timeout: 3000 });
       // console.log(e)
       // console.log("page reloaded")
 
-      const chapterImageElement: ElementHandle | null = await page.$('img#ci');
+      const chapterImageElement: ElementHandle | null = await page.$("img#ci");
 
       const chapterImageHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('src');
+        | undefined = await chapterImageElement?.getProperty("src");
 
       const widthHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('width');
+        | undefined = await chapterImageElement?.getProperty("width");
 
       const heightHandle:
         | JSHandle<any>
-        | undefined = await chapterImageElement?.getProperty('height');
+        | undefined = await chapterImageElement?.getProperty("height");
 
       const imageWidth = await widthHandle?.jsonValue();
 

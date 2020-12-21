@@ -10,14 +10,12 @@ const router: Router = express.Router();
 router.post(
   "/",
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-
     // const cra = new Crawler(req.body.baseUrl)
 
     // await cra.crawl(req.body.site)
 
     // console.log(cra.result)
-    res.json("NOT READY YET")
-
+    res.json("NOT READY YET");
   }
 );
 

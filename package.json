@@ -21,7 +21,8 @@
     "start": "node dist/app.js",
     "server": "nodemon src/app.ts",
     "build": "tsc -p .",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "prettier": "npx prettier --write **/*.{ts} ."
   },
   "keywords": [],
   "author": "",
