@@ -56,9 +56,9 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
   - **genre** _`string optional`_ - Manga genre(s) to filter by
 
-    > _Note: To form the genre query string, you must concatonate parameters ordered according to all 37 available genres in the table below._\
+    > _Note: To form the genre query string, you must concatonate parameters ordered alphabetically according to all 37 available genres in the table below._\
     > \
-    > _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0001000000000000000000000000000000000"_\
+    > _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0010000000000000000000000000000000000"_\
     > \
     > _A genre query parameter to filter out the drama and horror genres: genre="0000200000200000000000000000000000000"_
 
