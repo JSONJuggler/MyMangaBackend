@@ -241,14 +241,10 @@ router.get(
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
       );
 
-      try {
-        await page.goto(chapterLandingUrl, {
-          waitUntil: 'domcontentloaded',
-          timeout: 3000
-        });
-      } catch (e) {
-        await page.reload({ waitUntil: 'domcontentloaded', timeout: 3000 });
-      }
+      await page.goto(chapterLandingUrl, {
+        waitUntil: 'domcontentloaded',
+        timeout: 3000
+      });
 
       await page.click('div#swsc');
       await page.waitForSelector('div#in');
