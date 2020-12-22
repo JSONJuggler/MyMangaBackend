@@ -6,6 +6,7 @@ import puppeteer, {
   ElementHandle,
   JSHandle
 } from 'puppeteer';
+import { SearchResult } from '../../types';
 
 // create router
 const router: Router = express.Router();
@@ -26,10 +27,6 @@ router.get(
 
       const page: Page = await browser.newPage();
 
-      // page.on("console", (msg: ConsoleMessage): void =>
-      //   console.log("PAGE LOG:", msg.text())
-      // );
-
       await page.goto(
         'http://www.mangareader.net/search/?w=' +
           w.trim().replace(' ', '+') +
@@ -43,9 +40,6 @@ router.get(
           genre,
         { waitUntil: 'domcontentloaded', timeout: 10000 }
       );
-
-      // manually added this type to the Page interface
-      // await page.waitForTimeout(3000)
 
       const searchResult: Array<ElementHandle> = await page.$$(
         'div#ares > div.d54'
@@ -135,17 +129,10 @@ router.get(
 
       const page: Page = await browser.newPage();
 
-      // page.on("console", (msg: ConsoleMessage): void =>
-      //   console.log("PAGE LOG:", msg.text())
-      // );
-
       await page.goto(requestUrl, {
         waitUntil: 'domcontentloaded',
         timeout: 10000
       });
-
-      // manually added this type to the Page interface
-      // await page.waitForTimeout(3000)
 
       const coverElement: ElementHandle | null = await page.$('div#d38 > img');
 
@@ -179,16 +166,6 @@ router.get(
 
       const tableHeadMapping: Array<Promise<any>> = tableHead.map(
         async (result: ElementHandle): Promise<any> => {
-          // const titleElement: ElementHandle | null = await result.$(
-          //   'td:first-child > a'
-          // );
-
-          // const titleString: JSHandle<any> = await titleElement!.getProperty(
-          //   'innerText'
-          // );
-
-          // const titleString: JSHandle<any> = await titleElement!.getProperty("innerText")
-
           const chapterNumberElement: ElementHandle | null = await result.$(
             'a'
           );
@@ -210,7 +187,6 @@ router.get(
           );
 
           return {
-            // titleString: await titleString.jsonValue(),
             linkString: await linkString.jsonValue(),
             chapterNumberString: await chapterNumberString.jsonValue(),
             dateString: await dateString.jsonValue()
@@ -265,11 +241,6 @@ router.get(
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
       );
 
-      // page.on('console', (msg: ConsoleMessage): void =>
-      //   console.log('PAGE LOG:', msg.text())
-      // );
-
-      // console.log(chapterLandingUrl)
       try {
         await page.goto(chapterLandingUrl, {
           waitUntil: 'domcontentloaded',
@@ -320,7 +291,6 @@ router.get(
       const chapterPages = await Promise.all(chapterPagesMapping);
 
       const result = chapterPages;
-      // console.log(result)
       await browser.close();
 
       res.send(result);
