@@ -55,55 +55,58 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
   <br/>
 
   - **genre** _`string optional`_ - Manga genre(s) to filter by
-    | filter action | parameter |
-    | ------------- | --------- |
-    | - | 0 |
-    | Include | 1 |
-    | Exclude | 2 |
+
     > _Note: To form the genre query string, you must concatonate parameters ordered according to all 37 available genres in the table below._\
     > \
     > _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0001000000000000000000000000000000000"_\
     > \
     > _A genre query parameter to filter out the drama and horror genres: genre="0000200000200000000000000000000000000"_
-    > | genre name | genre string parameter index |
-    > | ------------- | ---------------------------- |
-    > | Action | 0 |
-    > | Adventure | 1 |
-    > | Comedy | 2 |
-    > | Demons | 3 |
-    > | Drama | 4 |
-    > | Ecchi | 5 |
-    > | Fantasy | 6 |
-    > | Gender Bender | 7 |
-    > | Harem | 8 |
-    > | Historical | 9 |
-    > | Horror | 10 |
-    > | Josei | 11 |
-    > | Magic | 12 |
-    > | Martial Arts | 13 |
-    > | Mature | 14 |
-    > | Mecha | 15 |
-    > | Military | 16 |
-    > | Mystery | 17 |
-    > | One Shot | 18 |
-    > | Psychological | 19 |
-    > | Romance | 20 |
-    > | School Life | 21 |
-    > | Sci-Fi | 22 |
-    > | Seinen | 23 |
-    > | Shoujo | 24 |
-    > | Shoujoai | 25 |
-    > | Shounen | 26 |
-    > | Shounenai | 27 |
-    > | Slice of Life | 28 |
-    > | Smut | 29 |
-    > | Sports | 30 |
-    > | Super Power | 31 |
-    > | Supernatural | 32 |
-    > | Tragedy | 33 |
-    > | Vampire | 34 |
-    > | Yaoi | 35 |
-    > | Yuri | 36 |
+
+    | filter action | parameter |
+    | ------------- | --------- |
+    | -             | 0         |
+    | Include       | 1         |
+    | Exclude       | 2         |
+
+    | genre name    | genre string parameter index |
+    | ------------- | ---------------------------- |
+    | Action        | 0                            |
+    | Adventure     | 1                            |
+    | Comedy        | 2                            |
+    | Demons        | 3                            |
+    | Drama         | 4                            |
+    | Ecchi         | 5                            |
+    | Fantasy       | 6                            |
+    | Gender Bender | 7                            |
+    | Harem         | 8                            |
+    | Historical    | 9                            |
+    | Horror        | 10                           |
+    | Josei         | 11                           |
+    | Magic         | 12                           |
+    | Martial Arts  | 13                           |
+    | Mature        | 14                           |
+    | Mecha         | 15                           |
+    | Military      | 16                           |
+    | Mystery       | 17                           |
+    | One Shot      | 18                           |
+    | Psychological | 19                           |
+    | Romance       | 20                           |
+    | School Life   | 21                           |
+    | Sci-Fi        | 22                           |
+    | Seinen        | 23                           |
+    | Shoujo        | 24                           |
+    | Shoujoai      | 25                           |
+    | Shounen       | 26                           |
+    | Shounenai     | 27                           |
+    | Slice of Life | 28                           |
+    | Smut          | 29                           |
+    | Sports        | 30                           |
+    | Super Power   | 31                           |
+    | Supernatural  | 32                           |
+    | Tragedy       | 33                           |
+    | Vampire       | 34                           |
+    | Yaoi          | 35                           |
+    | Yuri          | 36                           |
 
 ---
 
