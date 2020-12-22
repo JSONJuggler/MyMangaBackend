@@ -243,7 +243,7 @@ router.get(
 
       await page.goto(chapterLandingUrl, {
         waitUntil: 'domcontentloaded',
-        timeout: 3000
+        timeout: 10000
       });
 
       await page.click('div#swsc');
@@ -327,10 +327,10 @@ router.get(
     // try {
     //   await page.goto("http://www.mangareader.net" + pageUrl, {
     //     waitUntil: "domcontentloaded",
-    //     timeout: 3000,
+    //     timeout: 10000,
     //   });
     // } catch (e) {
-    //   await page.reload({ waitUntil: "domcontentloaded", timeout: 3000 });
+    //   await page.reload({ waitUntil: "domcontentloaded", timeout: 10000 });
     // }
 
     // // manually added this type to the Page interface
@@ -361,7 +361,7 @@ router.get(
     //   await browser.close();
     //   res.send({ chapterImageUrl, imageWidth, imageHeight });
     // } catch (e) {
-    //   await page.reload({ waitUntil: "load", timeout: 3000 });
+    //   await page.reload({ waitUntil: "load", timeout: 10000 });
     //   // console.log(e)
     //   // console.log("page reloaded")
 
