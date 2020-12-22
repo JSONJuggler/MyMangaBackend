@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction, Router } from "express";
-import Crawler from "../../mangapanda/crawler";
+import Crawler from "../../crawler";
 
 // create router
 const router: Router = express.Router();
