@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import fs from 'fs';
+import path from 'path';
 import remark from 'remark';
 import html from 'remark-html';
 import highlight from 'remark-highlight.js';
@@ -11,6 +12,8 @@ const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.use(express.json());
 
@@ -28,7 +31,10 @@ app.get('/', (req, res) => {
       .use(html)
       .process(data, (err, file) => {
         console.error(report(err || file));
-        res.send(file.toString());
+        res.send(
+          '<link rel="stylesheet" type="text/css" href="/css/styles.css" />' +
+            file.toString()
+        );
       });
   });
 });

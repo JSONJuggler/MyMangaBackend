@@ -1,0 +1,52 @@
+pre {
+  font-family: Consolas, 'courier new';
+  color: white;
+  background-color: rgb(45, 57, 68);
+  padding: 10px;
+  font-size: 105%;
+  max-width: 300px;
+}
+
+.hljs-built_in {
+  color: rgb(61, 216, 61);
+}
+
+.hljs-attr {
+  color: rgb(93, 198, 216);
+}
+
+body {
+  background-color: lightgray;
+}
+
+blockquote {
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: burlywood;
+  max-width: 600px;
+  max-height: 250px;
+  overflow: scroll;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  text-align: center;
+}
+
+code {
+  font-family: Consolas, 'courier new';
+  padding: 2px;
+  font-size: 105%;
+}
+
+p > code {
+  font-family: Consolas, 'courier new';
+  color: crimson;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+  font-weight: bolder;
+}

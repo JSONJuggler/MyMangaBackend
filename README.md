@@ -1,5 +1,7 @@
 # Welcome!
 
+[Live at `manga-back.webdeveloperbeau.com](https://www.mangareader.net/)
+
 This is a RESTful api I built using Typescript and Puppeteer for searching manga on [mangareader.net](https://www.mangareader.net/)
 
 Source website used previously was [mangapanda.com](http://www.mangapanda.com/) but it seems to have been taken down.
@@ -12,14 +14,14 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
 - returns json respone:
 
-  ```javascript
+  ```typescript
   Array<{
-    coverUrl: string;
-    titleString: string;
-    linkString: string;
-    chapterCountString: string;
-    mangaTypeString: string;
-    mangaGenreString: string;
+    coverUrl: string,
+    titleString: string,
+    linkString: string,
+    chapterCountString: string,
+    mangaTypeString: string,
+    mangaGenreString: string,
   }>
   ```
 
@@ -34,39 +36,31 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
     | Manhwa (reading Left to Right) | 1 |
     | Manga (reading Right to Left) | 2 |
 
-  <br/>
-
   - **status** _`string optional`_ - Manga status
-    | manga status | parameter |
-    | -------------------- | --------- |
-    | Ongoing and Complete | 0 |
-    | Ongoing | 1 |
-    | Complete | 2 |
 
-  <br/>
+    | manga status         | parameter |
+    | -------------------- | --------- |
+    | Ongoing and Complete | 0         |
+    | Ongoing              | 1         |
+    | Complete             | 2         |
 
   - **order** _`string optional`_ - Manga sort order
+
     | manga sort order | parameter |
     | ---------------- | --------- |
-    | Similarity | 0 |
-    | Alphabetical | 1 |
-    | Popularity | 2 |
-
-  <br/>
+    | Similarity       | 0         |
+    | Alphabetical     | 1         |
+    | Popularity       | 2         |
 
   - **genre** _`string optional`_ - Manga genre(s) to filter by
-
-    > _Note: To form the genre query string, you must concatonate parameters ordered alphabetically according to all 37 available genres in the table below._\
-    > \
-    > _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0010000000000000000000000000000000000"_\
-    > \
-    > _A genre query parameter to filter out the drama and horror genres: genre="0000200000200000000000000000000000000"_
 
     | filter action | parameter |
     | ------------- | --------- |
     | -             | 0         |
     | Include       | 1         |
     | Exclude       | 2         |
+
+    <br/>
 
     | genre name    | genre string parameter index |
     | ------------- | ---------------------------- |
@@ -108,25 +102,31 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
     | Yaoi          | 35                           |
     | Yuri          | 36                           |
 
+> _Note: To form the genre query string, you must concatonate parameters ordered alphabetically according to all 37 available genres in the table below._\
+> \
+> _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0010000000000000000000000000000000000"_\
+> \
+> _A genre query parameter to filter out the drama and horror genres: genre="0000200000200000000000000000000000000"_
+
 ---
 
 GET `/api/manga/details` - Get details of a manga
 
 - returns json response:
 
-  ```javascript
+  ```typescript
   {
-      title: string;
-      coverUrl: string;
-      requestUrl: string;
-      authorString: string;
-      artistString: string;
-      summaryString: string;
+      title: string,
+      coverUrl: string,
+      requestUrl: string,
+      authorString: string,
+      artistString: string,
+      summaryString: string,
       chapters: Array<{
-          titleString: string;
-          linkString: string;
-          chapterNumberString: string;
-          dateString: string;
+          titleString: string,
+          linkString: string,
+          chapterNumberString: string,
+          dateString: string,
       }>
   }
   ```
@@ -141,12 +141,12 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
 
 - returns json response:
 
-  ```javascript
+  ```typescript
   {
     chapterPages: Array<{
-      chapterImageUrl: string;
-      imageHeight: string;
-      imageWidth: string;
+      chapterImageUrl: string,
+      imageHeight: string,
+      imageWidth: string,
     }>
   }
   ```
