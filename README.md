@@ -14,7 +14,7 @@ Source website used previously was [mangapanda.com](http://www.mangapanda.com/) 
 
 GET `/api/manga/search` - Get filtered search results for requested manga using query params
 
-- returns json respone:
+- returns json response:
 
   ```typescript
   Array<{
