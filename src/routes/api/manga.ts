@@ -265,8 +265,8 @@ router.get(
         'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
       );
 
-      // page.on("console", (msg: ConsoleMessage): void =>
-      //   console.log("PAGE LOG:", msg.text())
+      // page.on('console', (msg: ConsoleMessage): void =>
+      //   console.log('PAGE LOG:', msg.text())
       // );
 
       // console.log(chapterLandingUrl)
@@ -279,11 +279,11 @@ router.get(
         await page.reload({ waitUntil: 'domcontentloaded', timeout: 3000 });
       }
 
-      // manually added this type to the Page interface
-      // await page.waitForTimeout(3000)
+      await page.click('div#swsc');
+      await page.waitForSelector('div#in');
 
       const chapterPagesElements: Array<ElementHandle> = await page.$$(
-        'div#in > div'
+        'div#in > div ~ div'
       );
 
       const chapterPagesMapping: Array<Promise<any>> = chapterPagesElements.map(
@@ -291,7 +291,6 @@ router.get(
           const chapterImageElement: ElementHandle | null = await result.$(
             'img'
           );
-
           const chapterImageHandle:
             | JSHandle<any>
             | undefined = await chapterImageElement?.getProperty('src');
