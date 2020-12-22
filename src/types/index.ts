@@ -29,8 +29,3 @@ export type ChapterPage = {
   imageWidth: string;
   imageHeight: string;
 };
-
-export type ChapterPages = {
-  chapterPageUrls: Array<string>;
-  chapterImageUrls: Array<ChapterPage | undefined>;
-};
