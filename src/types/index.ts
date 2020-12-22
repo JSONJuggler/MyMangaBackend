@@ -4,7 +4,7 @@ export type SearchResult = {
   searchResultLinkString: string;
   searchResultChapterCount: number;
   searchResultTypeString: string;
-  mangaGenreString: string;
+  searchResultGenreString: string;
 };
 
 export type MangaChapter = {
