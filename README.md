@@ -104,7 +104,7 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
     | Yaoi          | 35                           |
     | Yuri          | 36                           |
 
-> _Note: To form the genre query string, you must concatonate parameters ordered alphabetically according to all 37 available genres in the genre names table._\
+> _Note: To form the genre query string that can be parsed by mangareader, you must concatonate parameters ordered alphabetically according to all 37 available genres in the genre names table._\
 > \
 > _A genre query parameter to filter out all genres EXCEPT the comedy drama: genre="0010000000000000000000000000000000000"_\
 > \
