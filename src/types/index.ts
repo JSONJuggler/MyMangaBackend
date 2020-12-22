@@ -3,7 +3,7 @@ export type SearchResult = {
   searchResultTitleString: string;
   searchResultLinkString: string;
   searchResultChapterCount: number;
-  searchResultTypeString: string;
+  searchResultReadDirectionString: string;
   searchResultGenreString: string;
 };
 
