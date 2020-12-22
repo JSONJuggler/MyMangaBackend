@@ -1,8 +1,10 @@
 # Welcome!
 
+Created by Beau Reescano - [Checkout my other stuff at webdeveloperbeau.com!](https://webdeveloperbeau.com)
+
 [Live at manga-back.webdeveloperbeau.com](https://www.mangareader.net/)
 
-This is a RESTful api I built using Typescript and Puppeteer for searching manga on [mangareader.net](https://www.mangareader.net/)
+This is a RESTful api built using Typescript and Puppeteer for searching manga on [mangareader.net](https://www.mangareader.net/)
 
 Source website used previously was [mangapanda.com](http://www.mangapanda.com/) but it seems to have been taken down.
 
