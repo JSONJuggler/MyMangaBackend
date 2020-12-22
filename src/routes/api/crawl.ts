@@ -4,8 +4,8 @@ import Crawler from '../../crawler';
 // create router
 const router: Router = express.Router();
 
-// @route POST api/build/
-// @description Route to build manga database (no images)
+// @route POST api/crawl/
+// @description Route to crawl manga database (no images)
 // @access Public
 router.post(
   '/',

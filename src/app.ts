@@ -40,4 +40,4 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/manga', require('./routes/api/manga'));
-app.use('/api/build', require('./routes/api/build'));
+app.use('/api/crawl', require('./routes/api/crawl'));
