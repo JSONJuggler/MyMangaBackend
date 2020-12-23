@@ -14,17 +14,30 @@ Source website used previously was [mangapanda.com](http://www.mangapanda.com/) 
 
 GET `/api/manga/search` - Get filtered search results for requested manga using query params
 
-- returns json response:
+- returns json response: Array of objects of the **SearchResult** type
 
   ```typescript
-  Array<{
+  type SearchResult = {
     searchResultImageSrcString: string,
     searchResultTitleString: string,
     searchResultLinkString: string,
     searchResultChapterCountString: string,
     searchResultReadDirectionString: string,
     searchResultGenreString: string,
-  }>
+  };
+  ```
+
+- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=rd=0&genre=0000100000000000000000000000000000000&w=&order=0&status=0`
+
+  ```json
+  {
+    "searchResultImageSrcString": "s2.mangareader.net/cover/the-breaker-new-waves/the-breaker-new-waves-r0.jpg",
+    "searchResultTitleString": "The Breaker: New Waves",
+    "searchResultLinkString": "https://www.mangareader.net/the-breaker-new-waves",
+    "searchResultChapterCountString": "209 Chapters Published. (Ongoing)",
+    "searchResultReadDirectionString": "Manhwa (Read Left to Right)",
+    "searchResultGenreString": "Action, Comedy, Drama, Martial Arts, Romance, School Life, Shounen"
+  }
   ```
 
 - parameters:
@@ -114,10 +127,10 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
 GET `/api/manga/details` - Get details of a manga
 
-- returns json response:
+- returns json response: Object of the **MangaDetails** type
 
   ```typescript
-  {
+  type MangaDetails = {
     mangaImageSrcString: string,
     mangaLinkString: string,
     mangaAuthorString: string,
@@ -128,6 +141,32 @@ GET `/api/manga/details` - Get details of a manga
       mangaChapterLinkString: string,
       mangaChapterDateString: string,
     }>
+  };
+  ```
+
+- `https://manga-back.webdeveloperbeau.com/api/manga/details?requestUrl=https://www.mangareader.net/the-breaker-new-waves`
+
+  ```json
+  {
+    "mangaLinkString": "https://www.mangareader.net/the-breaker-new-waves",
+    "mangaAuthorString": "JEON Geuk-jin (Story), PARK Jin-Hwan (Art)",
+    "mangaArtistString": "",
+    "mangaSummaryString": "Continuation of The Breaker with new allies and enemies.",
+    "mangaChapters": [
+      {
+        "mangaChapterTitleString": "The Breaker: New Waves 1",
+        "mangaChapterLinkString": "https://www.mangareader.net/the-breaker-new-waves/1",
+        "mangaChapterDateString": "11/23/2010"
+      },
+      {
+        "mangaChapterTitleString": "The Breaker: New Waves 2",
+        "mangaChapterLinkString": "https://www.mangareader.net/the-breaker-new-waves/2",
+        "mangaChapterDateString": "11/23/2010"
+      },
+      ...
+      ..
+      .
+    ]
   }
   ```
 
@@ -139,16 +178,37 @@ GET `/api/manga/details` - Get details of a manga
 
 GET `/api/manga/pages` - Get all pages/images of a specific manga
 
-- returns json response:
+- returns json response: Array of objects of the **ChapterPage** type
 
   ```typescript
-  {
-    chapterPages: Array<{
-      chapterImageSrcString: string,
-      chapterImageWidth: number,
-      chapterImageHeight: number,
-    }>
-  }
+  type ChapterPage = {
+    chapterImageSrcString: string,
+    chapterImageWidth: number,
+    chapterImageHeight: number,
+  };
+  ```
+
+- `https://manga-back.webdeveloperbeau.com/api/manga/pages?chapterLandingUrl=https://www.mangareader.net/the-breaker-new-waves/1`
+
+  ```json
+  [
+    .
+    ..
+    ...
+    {
+      "chapterImageSrcString": "https://i2.imggur.net/the-breaker-new-waves/1/the-breaker-new-waves-1528451.jpg",
+      "chapterImageHeight": 535,
+      "chapterImageWidth": 800
+    },
+    {
+      "chapterImageSrcString": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+PGc+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM2E2MSA2MSAwIDEwNjEgNjFBNjEgNjEgMCAwMDY0IDN6Ii8+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM0E2MSA2MSAwIDAwMyA3MmMyLTMgNC02IDgtNiA2LTEgMTIgMiAxMyA4IDQgMTEgMSAyMyAxNSAzNSAyMCAxNiA0MSAxMyA1MyA5QTYxIDYxIDAgMDA2NCAzeiIvPjxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDY0IDY0IiB0bz0iMzYwIDY0IDY0IiBkdXI9IjE4MDBtcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PC9zdmc+",
+      "chapterImageHeight": 534,
+      "chapterImageWidth": 800
+    },
+    ...
+    ..
+    .
+  ]
   ```
 
 - parameters
