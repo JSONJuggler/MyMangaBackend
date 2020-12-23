@@ -118,6 +118,7 @@ GET `/api/manga/details` - Get details of a manga
 
   ```typescript
   {
+    mangaImageSrcString: string,
     mangaLinkString: string,
     mangaAuthorString: string,
     mangaArtistString: string,

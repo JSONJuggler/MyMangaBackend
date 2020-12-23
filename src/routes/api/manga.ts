@@ -146,7 +146,7 @@ router.get(
         timeout: 10000
       });
 
-      const mangaCoverImageElement: JSHandle<Element> | null = await page.$(
+      const mangaImageSrcElement: JSHandle<Element> | null = await page.$(
         'div#d38 > img'
       );
       const mangaAuthorElement: JSHandle<Element> | null = await page.$(
@@ -159,9 +159,9 @@ router.get(
         'div.d46 > p'
       );
 
-      const mangaCoverImageHandle:
+      const mangaImageSrcHandle:
         | JSHandle
-        | undefined = await mangaCoverImageElement?.getProperty('src');
+        | undefined = await mangaImageSrcElement?.getProperty('src');
       const mangaAuthorHandle:
         | JSHandle
         | undefined = await mangaAuthorElement?.getProperty('innerText');
@@ -215,7 +215,7 @@ router.get(
       );
 
       const mangaLinkString: string = requestUrl;
-      const mangaCoverImageString: string = (await mangaCoverImageHandle?.jsonValue()) as string;
+      const mangaImageSrcString: string = (await mangaImageSrcHandle?.jsonValue()) as string;
       const mangaAuthorString: string = (await mangaAuthorHandle?.jsonValue()) as string;
       const mangaArtistString: string = (await mangaArtistHandle?.jsonValue()) as string;
       const mangaSummaryString: string = (await mangaSummaryHandle?.jsonValue()) as string;
@@ -224,7 +224,7 @@ router.get(
       );
 
       const mangaDetails: MangaDetails = {
-        mangaCoverImageString,
+        mangaImageSrcString,
         mangaLinkString,
         mangaAuthorString,
         mangaArtistString,
