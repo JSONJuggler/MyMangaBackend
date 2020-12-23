@@ -84,7 +84,7 @@ router.get(
             'innerText'
           );
 
-          let searchResultImageSrcString:
+          const searchResultImageSrc:
             | string
             | null = await searchResultElementHandle.$eval(
             'table > tbody > tr > td:nth-child(2) > div.d56',
@@ -95,6 +95,7 @@ router.get(
             22,
             -2
           );
+          const searchResultImageSrcString: string = (await parsedSearchResultImageSrc) as string;
           const searchResultTitleString: string = (await searchResultTitleHandle!.jsonValue()) as string;
           const searchResultLinkString: string = (await searchResultLinkHandle!.jsonValue()) as string;
           const searchResultChapterCount: number = (await searchResultChapterCountHandle!.jsonValue()) as number;
@@ -158,18 +159,18 @@ router.get(
         'div.d46 > p'
       );
 
-      const mangaCoverImageHandle: JSHandle = await mangaCoverImageElement!.getProperty(
-        'src'
-      );
-      const mangaAuthorHandle: JSHandle = await mangaAuthorElement!.getProperty(
-        'innerText'
-      );
-      const mangaArtistHandle: JSHandle = await mangaArtistElement!.getProperty(
-        'innerText'
-      );
-      const mangaSummaryHandle: JSHandle = await mangaSummaryElement!.getProperty(
-        'innerText'
-      );
+      const mangaCoverImageHandle:
+        | JSHandle
+        | undefined = await mangaCoverImageElement?.getProperty('src');
+      const mangaAuthorHandle:
+        | JSHandle
+        | undefined = await mangaAuthorElement?.getProperty('innerText');
+      const mangaArtistHandle:
+        | JSHandle
+        | undefined = await mangaArtistElement?.getProperty('innerText');
+      const mangaSummaryHandle:
+        | JSHandle
+        | undefined = await mangaSummaryElement?.getProperty('innerText');
 
       const mangaChaptersElementHandles: Array<ElementHandle> = await page.$$(
         'tr.d49 ~ tr'
@@ -187,19 +188,23 @@ router.get(
           const mangaChapterDateElement: JSHandle<Element> | null = await mangaChapterElementHandle.$(
             'td:nth-child(2)'
           );
-          const mangaChapterTitleHandle: JSHandle = await mangaChapterTitleElement!.getProperty(
+          const mangaChapterTitleHandle:
+            | JSHandle
+            | undefined = await mangaChapterTitleElement?.getProperty(
             'innerText'
           );
-          const mangaChapterLinkHandle: JSHandle<Element> = await mangaChapterTitleElement!.getProperty(
-            'href'
-          );
-          const mangaChapterDateHandle: JSHandle<Element> = await mangaChapterDateElement!.getProperty(
+          const mangaChapterLinkHandle:
+            | JSHandle
+            | undefined = await mangaChapterTitleElement?.getProperty('href');
+          const mangaChapterDateHandle:
+            | JSHandle
+            | undefined = await mangaChapterDateElement?.getProperty(
             'innerText'
           );
 
-          const mangaChapterTitleString: string = (await mangaChapterTitleHandle.jsonValue()) as string;
-          const mangaChapterLinkString: string = (await mangaChapterLinkHandle.jsonValue()) as string;
-          const mangaChapterDateString: string = (await mangaChapterDateHandle.jsonValue()) as string;
+          const mangaChapterTitleString: string = (await mangaChapterTitleHandle!.jsonValue()) as string;
+          const mangaChapterLinkString: string = (await mangaChapterLinkHandle!.jsonValue()) as string;
+          const mangaChapterDateString: string = (await mangaChapterDateHandle!.jsonValue()) as string;
 
           return {
             mangaChapterTitleString,
@@ -210,14 +215,16 @@ router.get(
       );
 
       const mangaLinkString: string = requestUrl;
-      const mangaAuthorString: string = (await mangaAuthorHandle!.jsonValue()) as string;
-      const mangaArtistString: string = (await mangaArtistHandle!.jsonValue()) as string;
-      const mangaSummaryString: string = (await mangaSummaryHandle!.jsonValue()) as string;
+      const mangaCoverImageString: string = (await mangaCoverImageHandle?.jsonValue()) as string;
+      const mangaAuthorString: string = (await mangaAuthorHandle?.jsonValue()) as string;
+      const mangaArtistString: string = (await mangaArtistHandle?.jsonValue()) as string;
+      const mangaSummaryString: string = (await mangaSummaryHandle?.jsonValue()) as string;
       const mangaChapters: Array<MangaChapter> = await Promise.all(
         mangaChaptersMapping
       );
 
       const mangaDetails: MangaDetails = {
+        mangaCoverImageString,
         mangaLinkString,
         mangaAuthorString,
         mangaArtistString,
