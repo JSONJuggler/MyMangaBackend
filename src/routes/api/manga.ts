@@ -34,7 +34,7 @@ router.get(
 
       await page.goto(
         'http://www.mangareader.net/search/?w=' +
-          w.trim().replace(' ', '+') +
+          w?.trim().replace(' ', '+') +
           '&rd=' +
           rd +
           '&status=' +
