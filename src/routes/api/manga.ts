@@ -68,19 +68,27 @@ router.get(
           const searchResultGenreElement: JSHandle<Element> | null = await searchResultElementHandle.$(
             'div.d60'
           );
-          const searchResultTitleHandle: JSHandle = await searchResultTitleElement!.getProperty(
+          const searchResultTitleHandle:
+            | JSHandle
+            | undefined = await searchResultTitleElement?.getProperty(
             'innerText'
           );
-          const searchResultLinkHandle: JSHandle = await searchResultTitleElement!.getProperty(
-            'href'
-          );
-          const searchResultChapterCountHandle: JSHandle = await searchResultChapterCountElement!.getProperty(
+          const searchResultLinkHandle:
+            | JSHandle
+            | undefined = await searchResultTitleElement?.getProperty('href');
+          const searchResultChapterCountHandle:
+            | JSHandle
+            | undefined = await searchResultChapterCountElement?.getProperty(
             'innerText'
           );
-          const searchResultReadDirectionHandle: JSHandle = await searchResultReadDirectionElement!.getProperty(
+          const searchResultReadDirectionHandle:
+            | JSHandle
+            | undefined = await searchResultReadDirectionElement?.getProperty(
             'innerText'
           );
-          const searchResultGenreHandle: JSHandle<Element> = await searchResultGenreElement!.getProperty(
+          const searchResultGenreHandle:
+            | JSHandle
+            | undefined = await searchResultGenreElement?.getProperty(
             'innerText'
           );
 
@@ -96,11 +104,11 @@ router.get(
             -3
           );
           const searchResultImageSrcString: string = (await parsedSearchResultImageSrc) as string;
-          const searchResultTitleString: string = (await searchResultTitleHandle!.jsonValue()) as string;
-          const searchResultLinkString: string = (await searchResultLinkHandle!.jsonValue()) as string;
-          const searchResultChapterCount: number = (await searchResultChapterCountHandle!.jsonValue()) as number;
-          const searchResultReadDirectionString: string = (await searchResultReadDirectionHandle!.jsonValue()) as string;
-          const searchResultGenreString: string = (await searchResultGenreHandle!.jsonValue()) as string;
+          const searchResultTitleString: string = (await searchResultTitleHandle?.jsonValue()) as string;
+          const searchResultLinkString: string = (await searchResultLinkHandle?.jsonValue()) as string;
+          const searchResultChapterCount: number = (await searchResultChapterCountHandle?.jsonValue()) as number;
+          const searchResultReadDirectionString: string = (await searchResultReadDirectionHandle?.jsonValue()) as string;
+          const searchResultGenreString: string = (await searchResultGenreHandle?.jsonValue()) as string;
 
           return {
             searchResultImageSrcString,
@@ -202,9 +210,9 @@ router.get(
             'innerText'
           );
 
-          const mangaChapterTitleString: string = (await mangaChapterTitleHandle!.jsonValue()) as string;
-          const mangaChapterLinkString: string = (await mangaChapterLinkHandle!.jsonValue()) as string;
-          const mangaChapterDateString: string = (await mangaChapterDateHandle!.jsonValue()) as string;
+          const mangaChapterTitleString: string = (await mangaChapterTitleHandle?.jsonValue()) as string;
+          const mangaChapterLinkString: string = (await mangaChapterLinkHandle?.jsonValue()) as string;
+          const mangaChapterDateString: string = (await mangaChapterDateHandle?.jsonValue()) as string;
 
           return {
             mangaChapterTitleString,
@@ -279,21 +287,21 @@ router.get(
           const chapterImageSrcElement: JSHandle<Element> | null = await chapterPageElement.$(
             'img'
           );
-          const chapterImageSrcHandle: JSHandle = await chapterImageSrcElement!.getProperty(
-            'src'
-          );
+          const chapterImageSrcHandle:
+            | JSHandle
+            | undefined = await chapterImageSrcElement?.getProperty('src');
 
-          const chapterWidthHandle: JSHandle = await chapterImageSrcElement!.getProperty(
-            'width'
-          );
+          const chapterWidthHandle:
+            | JSHandle
+            | undefined = await chapterImageSrcElement?.getProperty('width');
 
-          const chapterHeightHandle: JSHandle = await chapterImageSrcElement!.getProperty(
-            'height'
-          );
+          const chapterHeightHandle:
+            | JSHandle
+            | undefined = await chapterImageSrcElement?.getProperty('height');
 
-          const chapterImageSrcString: string = (await chapterImageSrcHandle!.jsonValue()) as string;
-          const chapterImageHeight: number = (await chapterHeightHandle!.jsonValue()) as number;
-          const chapterImageWidth: number = (await chapterWidthHandle!.jsonValue()) as number;
+          const chapterImageSrcString: string = (await chapterImageSrcHandle?.jsonValue()) as string;
+          const chapterImageHeight: number = (await chapterHeightHandle?.jsonValue()) as number;
+          const chapterImageWidth: number = (await chapterWidthHandle?.jsonValue()) as number;
 
           return {
             chapterImageSrcString,
