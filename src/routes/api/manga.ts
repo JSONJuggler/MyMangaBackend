@@ -61,7 +61,7 @@ router.get(
         }
       }
       if (genre) {
-        if (genre.length < 37) {
+        if (genre.length !== 37) {
           res.status(400).send({
             status: 'Error - Bad Request',
             code: 400,
