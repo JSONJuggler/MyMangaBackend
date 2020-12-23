@@ -91,9 +91,9 @@ router.get(
             el => el.getAttribute('style')
           );
 
-          searchResultImageSrcString = searchResultImageSrcString!.slice(
-            22,
-            -2
+          const parsedSearchResultImageSrc = searchResultImageSrc?.slice(
+            25,
+            -3
           );
           const searchResultImageSrcString: string = (await parsedSearchResultImageSrc) as string;
           const searchResultTitleString: string = (await searchResultTitleHandle!.jsonValue()) as string;
