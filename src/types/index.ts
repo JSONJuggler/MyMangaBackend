@@ -10,7 +10,6 @@ export type SearchResult = {
 export type MangaChapter = {
   mangaChapterTitleString: string;
   mangaChapterLinkString: string;
-  mangaChapterNumber: number;
   mangaChapterDateString: string;
 };
 
