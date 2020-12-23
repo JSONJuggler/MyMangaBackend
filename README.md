@@ -4,7 +4,9 @@ Created by Beau Reescano - [Checkout my other stuff at webdeveloperbeau.com!](ht
 
 [Live at manga-back.webdeveloperbeau.com](https://www.mangareader.net/)
 
-[Need to report something broken? Do that here!](https://github.com/JSONJuggler/MyMangaBackend/issues)
+[Source code here](https://github.com/JSONJuggler/MyMangaBackend)
+
+[Need to report something broken? Do that here](https://github.com/JSONJuggler/MyMangaBackend/issues)
 
 This is a RESTful api built using Typescript and Puppeteer for searching manga on [mangareader.net](https://www.mangareader.net/)
 
@@ -31,38 +33,44 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
   };
   ```
 
-- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=blade&rd=0&genre=0000000000000000000000000000000000000&order=0&status=0`
+- GET `https://manga-back.webdeveloperbeau.com/api/manga/search?w=blade&rd=0&genre=0000000000000000000000000000000000000&order=0&status=0`
 
   ```json
-  [
-    {
-      "searchResultImageSrcString": "s4.mangareader.net/cover/break-blade/break-blade-r0.jpg",
-      "searchResultTitleString": "Break Blade",
-      "searchResultLinkString": "https://www.mangareader.net/break-blade",
-      "searchResultChapterCountString": "100 Chapters Published. (Ongoing)",
-      "searchResultReadDirectionString": "Manga (Read Right to Left)",
-      "searchResultGenreString": "Shounen"
-    },
-    {
-      "searchResultImageSrcString": "s4.mangareader.net/cover/xblade/xblade-r0.jpg",
-      "searchResultTitleString": "XBlade",
-      "searchResultLinkString": "https://www.mangareader.net/xblade",
-      "searchResultChapterCountString": "49 Chapters Published. (Ongoing)",
-      "searchResultReadDirectionString": "Manga (Read Right to Left)",
-      "searchResultGenreString": "Action, Seinen"
-    },
-    {
-      "searchResultImageSrcString": "s4.mangareader.net/cover/blade-of-the-immortal/blade-of-the-immortal-r0.jpg",
-      "searchResultTitleString": "Blade of the Immortal",
-      "searchResultLinkString": "https://www.mangareader.net/blade-of-the-immortal",
-      "searchResultChapterCountString": "163 Chapters Published. (Ongoing)",
-      "searchResultReadDirectionString": "Manga (Read Right to Left)",
-      "searchResultGenreString": "Historical, Horror, Supernatural"
-    },
-    ...
-    ..
-    .
-  ]
+  {
+    "status": "Ok",
+    "code": 200,
+    "message": "Success message",
+    "searchResults": [
+      {
+        "searchResultImageSrcString": "s4.mangareader.net/cover/break-blade/break-blade-r0.jpg",
+        "searchResultTitleString": "Break Blade",
+        "searchResultLinkString": "https://www.mangareader.net/break-blade",
+        "searchResultChapterCountString": "100 Chapters Published. (Ongoing)",
+        "searchResultReadDirectionString": "Manga (Read Right to Left)",
+        "searchResultGenreString": "Shounen"
+      },
+      {
+        "searchResultImageSrcString": "s4.mangareader.net/cover/xblade/xblade-r0.jpg",
+        "searchResultTitleString": "XBlade",
+        "searchResultLinkString": "https://www.mangareader.net/xblade",
+        "searchResultChapterCountString": "49 Chapters Published. (Ongoing)",
+        "searchResultReadDirectionString": "Manga (Read Right to Left)",
+        "searchResultGenreString": "Action, Seinen"
+      },
+      {
+        "searchResultImageSrcString": "s4.mangareader.net/cover/blade-of-the-immortal/blade-of-the-immortal-r0.jpg",
+        "searchResultTitleString": "Blade of the Immortal",
+        "searchResultLinkString": "https://www.mangareader.net/blade-of-the-immortal",
+        "searchResultChapterCountString": "163 Chapters Published. (Ongoing)",
+        "searchResultReadDirectionString": "Manga (Read Right to Left)",
+        "searchResultGenreString": "Historical, Horror, Supernatural"
+      },
+      ...
+      ..
+      .
+     ]
+  }
+
   ```
 
 - parameters:
@@ -169,10 +177,13 @@ GET `/api/manga/details` - Get details of a manga
   };
   ```
 
-- `https://manga-back.webdeveloperbeau.com/api/manga/details?requestUrl=https://www.mangareader.net/the-breaker-new-waves`
+- GET `https://manga-back.webdeveloperbeau.com/api/manga/details?requestUrl=https://www.mangareader.net/the-breaker-new-waves`
 
   ```json
   {
+    "status": "Ok",
+    "code": 200,
+    "message": "Success message",
     "mangaLinkString": "https://www.mangareader.net/the-breaker-new-waves",
     "mangaAuthorString": "JEON Geuk-jin (Story), PARK Jin-Hwan (Art)",
     "mangaArtistString": "",
@@ -213,27 +224,32 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
   };
   ```
 
-- `https://manga-back.webdeveloperbeau.com/api/manga/pages?chapterLandingUrl=https://www.mangareader.net/the-breaker-new-waves/1`
+- GET `https://manga-back.webdeveloperbeau.com/api/manga/pages?chapterLandingUrl=https://www.mangareader.net/the-breaker-new-waves/1`
 
   ```json
-  [
-    .
-    ..
-    ...
-    {
-      "chapterImageSrcString": "https://i2.imggur.net/the-breaker-new-waves/1/the-breaker-new-waves-1528451.jpg",
-      "chapterImageHeight": 535,
-      "chapterImageWidth": 800
-    },
-    {
-      "chapterImageSrcString": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+PGc+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM2E2MSA2MSAwIDEwNjEgNjFBNjEgNjEgMCAwMDY0IDN6Ii8+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM0E2MSA2MSAwIDAwMyA3MmMyLTMgNC02IDgtNiA2LTEgMTIgMiAxMyA4IDQgMTEgMSAyMyAxNSAzNSAyMCAxNiA0MSAxMyA1MyA5QTYxIDYxIDAgMDA2NCAzeiIvPjxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDY0IDY0IiB0bz0iMzYwIDY0IDY0IiBkdXI9IjE4MDBtcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PC9zdmc+",
-      "chapterImageHeight": 534,
-      "chapterImageWidth": 800
-    },
-    ...
-    ..
-    .
-  ]
+  {
+    "status": "Ok",
+    "code": 200,
+    "message": "Success message",
+    "chapterPages": [
+      .
+      ..
+      ...
+      {
+        "chapterImageSrcString": "https://i2.imggur.net/the-breaker-new-waves/1/the-breaker-new-waves-1528451.jpg",
+        "chapterImageHeight": 535,
+        "chapterImageWidth": 800
+      },
+      {
+        "chapterImageSrcString": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+PGc+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM2E2MSA2MSAwIDEwNjEgNjFBNjEgNjEgMCAwMDY0IDN6Ii8+PHBhdGggZmlsbD0iIzIyNDRhYiIgZD0iTTY0IDEyOGE2NCA2NCAwIDExNjQtNjQgNjQgNjQgMCAwMS02NCA2NHpNNjQgM0E2MSA2MSAwIDAwMyA3MmMyLTMgNC02IDgtNiA2LTEgMTIgMiAxMyA4IDQgMTEgMSAyMyAxNSAzNSAyMCAxNiA0MSAxMyA1MyA5QTYxIDYxIDAgMDA2NCAzeiIvPjxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSIgdHlwZT0icm90YXRlIiBmcm9tPSIwIDY0IDY0IiB0bz0iMzYwIDY0IDY0IiBkdXI9IjE4MDBtcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz48L2c+PC9zdmc+",
+        "chapterImageHeight": 534,
+        "chapterImageWidth": 800
+      },
+      ...
+      ..
+      .
+    ]
+  }
   ```
 
 - parameters
@@ -242,11 +258,12 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
 
 ---
 
-### Errors
+### API response messages and errors
 
 ---
 
 OK
+
 ```json
 {
   "status": "Ok",
@@ -255,7 +272,10 @@ OK
 }
 ```
 
+---
+
 BAD REQUEST
+
 ```json
 {
   "status": "Error - Bad Request",
@@ -264,7 +284,10 @@ BAD REQUEST
 }
 ```
 
+---
+
 NOT FOUND
+
 ```json
 {
   "status": "Error - Not Found",
@@ -272,3 +295,5 @@ NOT FOUND
   "message": "Error message"
 }
 ```
+
+---
