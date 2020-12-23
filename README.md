@@ -18,12 +18,12 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
   ```typescript
   Array<{
-    coverUrl: string,
-    titleString: string,
-    linkString: string,
-    chapterCountString: string,
-    mangaTypeString: string,
-    mangaGenreString: string,
+    searchResultCoverUrlString: string,
+    searchResultTitleString: string,
+    searchResultLinkString: string,
+    searchResultChapterCount: number,
+    searchResultReadDirectionString: string,
+    searchResultGenreString: string,
   }>
   ```
 
@@ -118,18 +118,15 @@ GET `/api/manga/details` - Get details of a manga
 
   ```typescript
   {
-      title: string,
-      coverUrl: string,
-      requestUrl: string,
-      authorString: string,
-      artistString: string,
-      summaryString: string,
-      chapters: Array<{
-          titleString: string,
-          linkString: string,
-          chapterNumberString: string,
-          dateString: string,
-      }>
+    mangaLinkString: string,
+    mangaAuthorString: string,
+    mangaArtistString: string,
+    mangaSummaryString: string,
+    mangaChapters: Array<{
+      mangaChapterTitleString: string,
+      mangaChapterLinkString: string,
+      mangaChapterDateString: string,
+    }>
   }
   ```
 
@@ -146,9 +143,9 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
   ```typescript
   {
     chapterPages: Array<{
-      chapterImageUrl: string,
-      imageHeight: string,
-      imageWidth: string,
+      chapterImageSrc: string,
+      chapterImageWidth: string,
+      chapterImageHeight: string,
     }>
   }
   ```
