@@ -4,6 +4,8 @@ Created by Beau Reescano - [Checkout my other stuff at webdeveloperbeau.com!](ht
 
 [Live at manga-back.webdeveloperbeau.com](https://www.mangareader.net/)
 
+[Need to report something broken? Do that here!](https://github.com/JSONJuggler/MyMangaBackend/issues)
+
 This is a RESTful api built using Typescript and Puppeteer for searching manga on [mangareader.net](https://www.mangareader.net/)
 
 Source website used previously was [mangapanda.com](http://www.mangapanda.com/) but it seems to have been taken down.
