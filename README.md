@@ -27,17 +27,25 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
   };
   ```
 
-- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=rd=0&genre=0000100000000000000000000000000000000&w=&order=0&status=0`
+- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=rd=0&genre=0000100000000000000000000000000000000&&order=0&status=0`
 
   ```json
-  {
-    "searchResultImageSrcString": "s2.mangareader.net/cover/the-breaker-new-waves/the-breaker-new-waves-r0.jpg",
-    "searchResultTitleString": "The Breaker: New Waves",
-    "searchResultLinkString": "https://www.mangareader.net/the-breaker-new-waves",
-    "searchResultChapterCountString": "209 Chapters Published. (Ongoing)",
-    "searchResultReadDirectionString": "Manhwa (Read Left to Right)",
-    "searchResultGenreString": "Action, Comedy, Drama, Martial Arts, Romance, School Life, Shounen"
-  }
+  [
+    .
+    ..
+    ...
+    {
+      "searchResultImageSrcString": "s2.mangareader.net/cover/the-breaker-new-waves/the-breaker-new-waves-r0.jpg",
+      "searchResultTitleString": "The Breaker: New Waves",
+      "searchResultLinkString": "https://www.mangareader.net/the-breaker-new-waves",
+      "searchResultChapterCountString": "209 Chapters Published. (Ongoing)",
+      "searchResultReadDirectionString": "Manhwa (Read Left to Right)",
+      "searchResultGenreString": "Action, Comedy, Drama, Martial Arts, Romance, School Life, Shounen"
+    }
+    ...
+    ..
+    .
+  ]
   ```
 
 - parameters:
