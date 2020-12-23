@@ -106,7 +106,7 @@ router.get(
           const searchResultImageSrcString: string = (await parsedSearchResultImageSrc) as string;
           const searchResultTitleString: string = (await searchResultTitleHandle?.jsonValue()) as string;
           const searchResultLinkString: string = (await searchResultLinkHandle?.jsonValue()) as string;
-          const searchResultChapterCount: number = (await searchResultChapterCountHandle?.jsonValue()) as number;
+          const searchResultChapterCountString: string = (await searchResultChapterCountHandle?.jsonValue()) as string;
           const searchResultReadDirectionString: string = (await searchResultReadDirectionHandle?.jsonValue()) as string;
           const searchResultGenreString: string = (await searchResultGenreHandle?.jsonValue()) as string;
 
@@ -114,7 +114,7 @@ router.get(
             searchResultImageSrcString,
             searchResultTitleString,
             searchResultLinkString,
-            searchResultChapterCount,
+            searchResultChapterCountString,
             searchResultReadDirectionString,
             searchResultGenreString
           };

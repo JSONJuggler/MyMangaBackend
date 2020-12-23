@@ -2,7 +2,7 @@ export type SearchResult = {
   searchResultImageSrcString: string;
   searchResultTitleString: string;
   searchResultLinkString: string;
-  searchResultChapterCount: number;
+  searchResultChapterCountString: string;
   searchResultReadDirectionString: string;
   searchResultGenreString: string;
 };

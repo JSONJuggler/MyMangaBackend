@@ -21,7 +21,7 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
     searchResultImageSrcString: string,
     searchResultTitleString: string,
     searchResultLinkString: string,
-    searchResultChapterCount: number,
+    searchResultChapterCountString: string,
     searchResultReadDirectionString: string,
     searchResultGenreString: string,
   }>
