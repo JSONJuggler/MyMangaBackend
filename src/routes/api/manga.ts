@@ -33,7 +33,7 @@ router.get(
             status: 'Error - Bad Request',
             code: 400,
             message:
-              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+              'Unable to process request. Please provide a valid rd query parameter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
           });
           return;
         }
@@ -44,7 +44,7 @@ router.get(
             status: 'Error - Bad Request',
             code: 400,
             message:
-              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+              'Unable to process request. Please provide a valid status query parameter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
           });
           return;
         }
@@ -55,19 +55,27 @@ router.get(
             status: 'Error - Bad Request',
             code: 400,
             message:
-              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+              'Unable to process request. Please provide a valid order query parameter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
           });
           return;
         }
       }
       if (genre) {
+        if (genre.length < 37) {
+          res.status(400).send({
+            status: 'Error - Bad Request',
+            code: 400,
+            message:
+              'Unable to process request. Length of genre string must be 37. Please provide a valid genre query parameter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+          });
+        }
         for (let i = 0; i < genre.length; i++) {
           if (!genre[i] || !isInt(genre[i], { min: 0, max: 2 })) {
             res.status(400).send({
               status: 'Error - Bad Request',
               code: 400,
               message:
-                'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+                'Unable to process request. Please provide a valid genre query parameter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
             });
             return;
           }
@@ -195,11 +203,11 @@ router.get(
       res.send(searchResults);
     } catch (err) {
       console.error(err);
-      res.status(400).send({
-        status: 'Error - Bad Request',
-        code: 400,
+      res.status(404).send({
+        status: 'Error - Not Found',
+        code: 404,
         message:
-          'Unable to process request. Either mangareader.net has been updated or there is an invalid query parameter. Please provide valid query parameters or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+          'Either mangareader.net has been updated or there is an invalid query parameter. Please provide valid query parameters or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
       });
       return;
     }
@@ -327,9 +335,9 @@ router.get(
       res.send(mangaDetails);
     } catch (err) {
       console.error(err);
-      res.status(400).send({
-        status: 'Error - Bad Request',
-        code: 400,
+      res.status(404).send({
+        status: 'Error - Not Found',
+        code: 404,
         message:
           'Unable to process request. Either mangareader.net has been updated or this is not a valid link. Please provide a valid link to a mangareader.net manga or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
       });
@@ -417,9 +425,9 @@ router.get(
       res.send(result);
     } catch (err) {
       console.error(err);
-      res.status(400).send({
-        status: 'Error - Bad Request',
-        code: 400,
+      res.status(404).send({
+        status: 'Error - Not Found',
+        code: 404,
         message:
           'Unable to process request. Either mangareader.net has been updated or this is not a valid link. Please provide a valid link to a mangareader.net manga chapter or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
       });

@@ -10,6 +10,8 @@ This is a RESTful api built using Typescript and Puppeteer for searching manga o
 
 Source website used previously was [mangapanda.com](http://www.mangapanda.com/) but it seems to have been taken down.
 
+---
+
 ### Endpoints
 
 ---
@@ -239,3 +241,34 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
   - **chapterLandingUrl** _`string required`_ - The mangareader link of the requested chapter
 
 ---
+
+### Errors
+
+---
+
+OK
+```json
+{
+  "status": "Ok",
+  "code": 200,
+  "message": "Success message"
+}
+```
+
+BAD REQUEST
+```json
+{
+  "status": "Error - Bad Request",
+  "code": 400,
+  "message": "Error message"
+}
+```
+
+NOT FOUND
+```json
+{
+  "status": "Error - Not Found",
+  "code": 404,
+  "message": "Error message"
+}
+```
