@@ -7,6 +7,7 @@ import puppeteer, {
   JSHandle
 } from 'puppeteer';
 import isURL from 'validator/lib/isURL';
+import isInt from 'validator/lib/isInt';
 import {
   ChapterPage,
   MangaChapter,
@@ -26,6 +27,52 @@ router.get(
     try {
       const searchRequest: any = req.query;
       const { w, rd, status, order, genre } = searchRequest;
+      if (rd) {
+        if (!isInt(rd, { min: 0, max: 2 })) {
+          res.status(400).send({
+            status: 'Error - Bad Request',
+            code: 400,
+            message:
+              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+          });
+          return;
+        }
+      }
+      if (status) {
+        if (!isInt(status, { min: 0, max: 2 })) {
+          res.status(400).send({
+            status: 'Error - Bad Request',
+            code: 400,
+            message:
+              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+          });
+          return;
+        }
+      }
+      if (order) {
+        if (!isInt(order, { min: 0, max: 2 })) {
+          res.status(400).send({
+            status: 'Error - Bad Request',
+            code: 400,
+            message:
+              'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+          });
+          return;
+        }
+      }
+      if (genre) {
+        for (let i = 0; i < genre.length; i++) {
+          if (!genre[i] || !isInt(genre[i], { min: 0, max: 2 })) {
+            res.status(400).send({
+              status: 'Error - Bad Request',
+              code: 400,
+              message:
+                'Unable to process request. Please provide  valid query parameters. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+            });
+            return;
+          }
+        }
+      }
 
       const browser: Browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox']
