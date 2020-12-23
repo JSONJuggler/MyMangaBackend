@@ -6,6 +6,7 @@ import puppeteer, {
   ElementHandle,
   JSHandle
 } from 'puppeteer';
+import isURL from 'validator/lib/isURL';
 import {
   ChapterPage,
   MangaChapter,
@@ -32,19 +33,33 @@ router.get(
 
       const page: Page = await browser.newPage();
 
-      await page.goto(
-        'http://www.mangareader.net/search/?w=' +
-          w.trim().replace(' ', '+') +
-          '&rd=' +
-          rd +
-          '&status=' +
-          status +
-          '&order=' +
-          order +
-          '&genre=' +
-          genre,
-        { waitUntil: 'domcontentloaded', timeout: 10000 }
-      );
+      w
+        ? await page.goto(
+            'http://www.mangareader.net/search/?w=' +
+              w.trim().replace(' ', '+') +
+              '&rd=' +
+              rd +
+              '&status=' +
+              status +
+              '&order=' +
+              order +
+              '&genre=' +
+              genre,
+            { waitUntil: 'domcontentloaded', timeout: 10000 }
+          )
+        : await page.goto(
+            'http://www.mangareader.net/search/?w=' +
+              w +
+              '&rd=' +
+              rd +
+              '&status=' +
+              status +
+              '&order=' +
+              order +
+              '&genre=' +
+              genre,
+            { waitUntil: 'domcontentloaded', timeout: 10000 }
+          );
 
       const searchResultElementHandles: Array<ElementHandle> = await page.$$(
         'div#ares > div.d54'
@@ -129,7 +144,14 @@ router.get(
 
       res.send(searchResults);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      res.status(400).send({
+        status: 'Error - Bad Request',
+        code: 400,
+        message:
+          'Unable to process request. Either mangareader.net has been updated or there is an invalid query parameter. Please provide valid query parameters or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+      });
+      return;
     }
   }
 );
@@ -142,6 +164,16 @@ router.get(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { requestUrl }: any = req.query;
+
+      if (!requestUrl || !isURL(requestUrl)) {
+        res.status(400).send({
+          status: 'Error - Bad Request',
+          code: 400,
+          message:
+            'Unable to process request. Please provide a valid link to a mangareader.net manga. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+        });
+        return;
+      }
 
       const browser: Browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -244,7 +276,13 @@ router.get(
 
       res.send(mangaDetails);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      res.status(400).send({
+        status: 'Error - Bad Request',
+        code: 400,
+        message:
+          'Unable to process request. Either mangareader.net has been updated or this is not a valid link. Please provide a valid link to a mangareader.net manga or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+      });
     }
   }
 );
@@ -257,6 +295,16 @@ router.get(
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { chapterLandingUrl }: any = req.query;
+
+      if (!chapterLandingUrl || !isURL(chapterLandingUrl)) {
+        res.status(400).send({
+          status: 'Error - Bad Request',
+          code: 400,
+          message:
+            'Unable to process request. Please provide a valid link to a mangareader.net manga chapter. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+        });
+        return;
+      }
 
       const browser: Browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox']
@@ -318,7 +366,13 @@ router.get(
 
       res.send(result);
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      res.status(400).send({
+        status: 'Error - Bad Request',
+        code: 400,
+        message:
+          'Unable to process request. Either mangareader.net has been updated or this is not a valid link. Please provide a valid link to a mangareader.net manga chapter or report something broken here:https://github.com/JSONJuggler/MyMangaBackend/issues. Refer to docs: https://manga-back.webdeveloperbeau.com/'
+      });
     }
   }
 );
