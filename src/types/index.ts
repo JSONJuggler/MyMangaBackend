@@ -1,5 +1,5 @@
 export type SearchResult = {
-  searchResultCoverUrlString: string;
+  searchResultImageSrcString: string;
   searchResultTitleString: string;
   searchResultLinkString: string;
   searchResultChapterCount: number;
@@ -22,7 +22,7 @@ export type MangaDetails = {
 };
 
 export type ChapterPage = {
-  chapterImageSrc: string;
-  chapterImageWidth: string;
-  chapterImageHeight: string;
+  chapterImageSrcString: string;
+  chapterImageWidth: number;
+  chapterImageHeight: number;
 };

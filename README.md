@@ -18,7 +18,7 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
   ```typescript
   Array<{
-    searchResultCoverUrlString: string,
+    searchResultImageSrcString: string,
     searchResultTitleString: string,
     searchResultLinkString: string,
     searchResultChapterCount: number,
@@ -143,9 +143,9 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
   ```typescript
   {
     chapterPages: Array<{
-      chapterImageSrc: string,
-      chapterImageWidth: string,
-      chapterImageHeight: string,
+      chapterImageSrcString: string,
+      chapterImageWidth: number,
+      chapterImageHeight: number,
     }>
   }
   ```

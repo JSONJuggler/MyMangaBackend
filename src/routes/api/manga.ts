@@ -84,14 +84,14 @@ router.get(
             'innerText'
           );
 
-          let searchResultCoverUrlString:
+          let searchResultImageSrcString:
             | string
             | null = await searchResultElementHandle.$eval(
             'table > tbody > tr > td:nth-child(2) > div.d56',
             el => el.getAttribute('style')
           );
 
-          searchResultCoverUrlString = searchResultCoverUrlString!.slice(
+          searchResultImageSrcString = searchResultImageSrcString!.slice(
             22,
             -2
           );
@@ -102,7 +102,7 @@ router.get(
           const searchResultGenreString: string = (await searchResultGenreHandle!.jsonValue()) as string;
 
           return {
-            searchResultCoverUrlString,
+            searchResultImageSrcString,
             searchResultTitleString,
             searchResultLinkString,
             searchResultChapterCount,
@@ -209,7 +209,7 @@ router.get(
         }
       );
 
-      const mangaLinkString: string = (await mangaCoverImageHandle!.jsonValue()) as string;
+      const mangaLinkString: string = requestUrl;
       const mangaAuthorString: string = (await mangaAuthorHandle!.jsonValue()) as string;
       const mangaArtistString: string = (await mangaArtistHandle!.jsonValue()) as string;
       const mangaSummaryString: string = (await mangaSummaryHandle!.jsonValue()) as string;
@@ -284,12 +284,12 @@ router.get(
             'height'
           );
 
-          const chapterImageSrc: string = (await chapterImageSrcHandle!.jsonValue()) as string;
-          const chapterImageHeight: string = (await chapterHeightHandle!.jsonValue()) as string;
-          const chapterImageWidth: string = (await chapterWidthHandle!.jsonValue()) as string;
+          const chapterImageSrcString: string = (await chapterImageSrcHandle!.jsonValue()) as string;
+          const chapterImageHeight: number = (await chapterHeightHandle!.jsonValue()) as number;
+          const chapterImageWidth: number = (await chapterWidthHandle!.jsonValue()) as number;
 
           return {
-            chapterImageSrc,
+            chapterImageSrcString,
             chapterImageHeight,
             chapterImageWidth
           };
