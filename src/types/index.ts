@@ -23,6 +23,6 @@ export type MangaDetails = {
 
 export type ChapterPage = {
   chapterImageUrl: string;
-  imageWidth: string;
-  imageHeight: string;
+  chapterImageWidth: string;
+  chapterImageHeight: string;
 };
