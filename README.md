@@ -27,21 +27,34 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
   };
   ```
 
-- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=rd=0&genre=0000100000000000000000000000000000000&&order=0&status=0`
+- `https://manga-back.webdeveloperbeau.com/api/manga/search?w=blade&rd=0&genre=0000000000000000000000000000000000000&order=0&status=0`
 
   ```json
   [
-    .
-    ..
-    ...
     {
-      "searchResultImageSrcString": "s2.mangareader.net/cover/the-breaker-new-waves/the-breaker-new-waves-r0.jpg",
-      "searchResultTitleString": "The Breaker: New Waves",
-      "searchResultLinkString": "https://www.mangareader.net/the-breaker-new-waves",
-      "searchResultChapterCountString": "209 Chapters Published. (Ongoing)",
-      "searchResultReadDirectionString": "Manhwa (Read Left to Right)",
-      "searchResultGenreString": "Action, Comedy, Drama, Martial Arts, Romance, School Life, Shounen"
-    }
+      "searchResultImageSrcString": "s4.mangareader.net/cover/break-blade/break-blade-r0.jpg",
+      "searchResultTitleString": "Break Blade",
+      "searchResultLinkString": "https://www.mangareader.net/break-blade",
+      "searchResultChapterCountString": "100 Chapters Published. (Ongoing)",
+      "searchResultReadDirectionString": "Manga (Read Right to Left)",
+      "searchResultGenreString": "Shounen"
+    },
+    {
+      "searchResultImageSrcString": "s4.mangareader.net/cover/xblade/xblade-r0.jpg",
+      "searchResultTitleString": "XBlade",
+      "searchResultLinkString": "https://www.mangareader.net/xblade",
+      "searchResultChapterCountString": "49 Chapters Published. (Ongoing)",
+      "searchResultReadDirectionString": "Manga (Read Right to Left)",
+      "searchResultGenreString": "Action, Seinen"
+    },
+    {
+      "searchResultImageSrcString": "s4.mangareader.net/cover/blade-of-the-immortal/blade-of-the-immortal-r0.jpg",
+      "searchResultTitleString": "Blade of the Immortal",
+      "searchResultLinkString": "https://www.mangareader.net/blade-of-the-immortal",
+      "searchResultChapterCountString": "163 Chapters Published. (Ongoing)",
+      "searchResultReadDirectionString": "Manga (Read Right to Left)",
+      "searchResultGenreString": "Historical, Horror, Supernatural"
+    },
     ...
     ..
     .
