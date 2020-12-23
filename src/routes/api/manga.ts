@@ -199,8 +199,12 @@ router.get(
       );
 
       await browser.close();
-
-      res.send(searchResults);
+      res.status(200).send({
+        status: 'Ok',
+        code: 200,
+        message: 'Request success',
+        searchResults
+      });
     } catch (err) {
       console.error(err);
       res.status(404).send({
@@ -331,8 +335,12 @@ router.get(
       };
 
       await browser.close();
-
-      res.send(mangaDetails);
+      res.status(200).send({
+        status: 'Ok',
+        code: 200,
+        message: 'Request success',
+        mangaDetails
+      });
     } catch (err) {
       console.error(err);
       res.status(404).send({
@@ -418,11 +426,13 @@ router.get(
       );
 
       const chapterPages = await Promise.all(chapterPagesMapping);
-
-      const result = chapterPages;
       await browser.close();
-
-      res.send(result);
+      res.status(200).send({
+        status: 'Ok',
+        code: 200,
+        message: 'Request success',
+        chapterPages
+      });
     } catch (err) {
       console.error(err);
       res.status(404).send({
