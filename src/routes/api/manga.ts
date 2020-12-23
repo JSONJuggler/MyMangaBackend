@@ -6,7 +6,12 @@ import puppeteer, {
   ElementHandle,
   JSHandle
 } from 'puppeteer';
-import { SearchResult } from '../../types';
+import {
+  ChapterPage,
+  MangaChapter,
+  MangaDetails,
+  SearchResult
+} from '../../types';
 
 // create router
 const router: Router = express.Router();
@@ -41,73 +46,79 @@ router.get(
         { waitUntil: 'domcontentloaded', timeout: 10000 }
       );
 
-      const searchResult: Array<ElementHandle> = await page.$$(
+      const searchResultElementHandles: Array<ElementHandle> = await page.$$(
         'div#ares > div.d54'
       );
 
-      const searchResultMapping: Array<Promise<any>> = searchResult.map(
-        async (result: ElementHandle): Promise<any> => {
-          const coverUrl:
+      const searchResultMapping: Array<
+        Promise<SearchResult>
+      > = searchResultElementHandles.map(
+        async (
+          searchResultElementHandle: ElementHandle
+        ): Promise<SearchResult> => {
+          const searchResultTitleElement: JSHandle<Element> | null = await searchResultElementHandle.$(
+            'div.d57 > a'
+          );
+          const searchResultChapterCountElement: JSHandle<Element> | null = await searchResultElementHandle.$(
+            'div.d58'
+          );
+          const searchResultReadDirectionElement: JSHandle<Element> | null = await searchResultElementHandle.$(
+            'div.d59'
+          );
+          const searchResultGenreElement: JSHandle<Element> | null = await searchResultElementHandle.$(
+            'div.d60'
+          );
+          const searchResultTitleHandle: JSHandle = await searchResultTitleElement!.getProperty(
+            'innerText'
+          );
+          const searchResultLinkHandle: JSHandle = await searchResultTitleElement!.getProperty(
+            'href'
+          );
+          const searchResultChapterCountHandle: JSHandle = await searchResultChapterCountElement!.getProperty(
+            'innerText'
+          );
+          const searchResultReadDirectionHandle: JSHandle = await searchResultReadDirectionElement!.getProperty(
+            'innerText'
+          );
+          const searchResultGenreHandle: JSHandle<Element> = await searchResultGenreElement!.getProperty(
+            'innerText'
+          );
+
+          let searchResultCoverUrlString:
             | string
-            | null = await result.$eval(
+            | null = await searchResultElementHandle.$eval(
             'table > tbody > tr > td:nth-child(2) > div.d56',
             el => el.getAttribute('style')
           );
 
-          const parsedUrl = coverUrl?.slice(22, -2);
-
-          const titleElement: ElementHandle | null = await result.$(
-            'div.d57 > a'
+          searchResultCoverUrlString = searchResultCoverUrlString!.slice(
+            22,
+            -2
           );
-
-          const titleString: JSHandle<any> = await titleElement!.getProperty(
-            'innerText'
-          );
-
-          const linkString: JSHandle<any> = await titleElement!.getProperty(
-            'href'
-          );
-
-          const chapterCountElement: ElementHandle | null = await result.$(
-            'div.d58'
-          );
-
-          const chapterCountString: JSHandle<any> = await chapterCountElement!.getProperty(
-            'innerText'
-          );
-
-          const mangaTypeElement: ElementHandle | null = await result.$(
-            'div.d59'
-          );
-
-          const mangaTypeString: JSHandle<any> = await mangaTypeElement!.getProperty(
-            'innerText'
-          );
-
-          const mangaGenreElement: ElementHandle | null = await result.$(
-            'div.d60'
-          );
-
-          const mangaGenreString: JSHandle<any> = await mangaGenreElement!.getProperty(
-            'innerText'
-          );
+          const searchResultTitleString: string = (await searchResultTitleHandle!.jsonValue()) as string;
+          const searchResultLinkString: string = (await searchResultLinkHandle!.jsonValue()) as string;
+          const searchResultChapterCount: number = (await searchResultChapterCountHandle!.jsonValue()) as number;
+          const searchResultReadDirectionString: string = (await searchResultReadDirectionHandle!.jsonValue()) as string;
+          const searchResultGenreString: string = (await searchResultGenreHandle!.jsonValue()) as string;
 
           return {
-            coverUrl: await parsedUrl,
-            titleString: await titleString.jsonValue(),
-            linkString: await linkString.jsonValue(),
-            chapterCountString: await chapterCountString.jsonValue(),
-            mangaTypeString: await mangaTypeString.jsonValue(),
-            mangaGenreString: await mangaGenreString.jsonValue()
+            searchResultCoverUrlString,
+            searchResultTitleString,
+            searchResultLinkString,
+            searchResultChapterCount,
+            searchResultReadDirectionString,
+            searchResultGenreString
           };
         }
       );
 
-      const results = await Promise.all(searchResultMapping);
+      const searchResults: Array<SearchResult> = await Promise.all(
+        searchResultMapping
+      );
 
       await browser.close();
 
-      res.send(results);
+      res.send(searchResults);
     } catch (err) {
       console.log(err);
     }
@@ -134,88 +145,89 @@ router.get(
         timeout: 10000
       });
 
-      const coverElement: ElementHandle | null = await page.$('div#d38 > img');
-
-      const coverHandle:
-        | JSHandle<any>
-        | undefined = await coverElement?.getProperty('src');
-
-      const authorElement: ElementHandle | null = await page.$(
+      const mangaCoverImageElement: JSHandle<Element> | null = await page.$(
+        'div#d38 > img'
+      );
+      const mangaAuthorElement: JSHandle<Element> | null = await page.$(
         'div.d39  tbody  tr:nth-child(5)  td:nth-child(2)'
       );
-
-      const authorHandle:
-        | JSHandle<any>
-        | undefined = await authorElement?.getProperty('innerText');
-
-      const artistElement: ElementHandle | null = await page.$(
+      const mangaArtistElement: JSHandle<Element> | null = await page.$(
         'div.d39 table tbody tr:nth-child(6) td:nth-child(2)'
       );
+      const mangaSummaryElement: JSHandle<Element> | null = await page.$(
+        'div.d46 > p'
+      );
 
-      const artistHandle:
-        | JSHandle<any>
-        | undefined = await artistElement?.getProperty('innerText');
+      const mangaCoverImageHandle: JSHandle = await mangaCoverImageElement!.getProperty(
+        'src'
+      );
+      const mangaAuthorHandle: JSHandle = await mangaAuthorElement!.getProperty(
+        'innerText'
+      );
+      const mangaArtistHandle: JSHandle = await mangaArtistElement!.getProperty(
+        'innerText'
+      );
+      const mangaSummaryHandle: JSHandle = await mangaSummaryElement!.getProperty(
+        'innerText'
+      );
 
-      const summaryElement: ElementHandle | null = await page.$('div.d46 > p');
+      const mangaChaptersElementHandles: Array<ElementHandle> = await page.$$(
+        'tr.d49 ~ tr'
+      );
 
-      const summaryHandle:
-        | JSHandle<any>
-        | undefined = await summaryElement?.getProperty('innerText');
-
-      const tableHead: Array<ElementHandle> = await page.$$('tr.d49 ~ tr');
-
-      const tableHeadMapping: Array<Promise<any>> = tableHead.map(
-        async (result: ElementHandle): Promise<any> => {
-          const chapterNumberElement: ElementHandle | null = await result.$(
+      const mangaChaptersMapping: Array<
+        Promise<MangaChapter>
+      > = mangaChaptersElementHandles.map(
+        async (
+          mangaChapterElementHandle: ElementHandle
+        ): Promise<MangaChapter> => {
+          const mangaChapterTitleElement: JSHandle<Element> | null = await mangaChapterElementHandle.$(
             'a'
           );
-
-          const chapterNumberString: JSHandle<any> = await chapterNumberElement!.getProperty(
-            'innerText'
-          );
-
-          const linkString: JSHandle<any> = await chapterNumberElement!.getProperty(
-            'href'
-          );
-
-          const dateElement: ElementHandle | null = await result.$(
+          const mangaChapterDateElement: JSHandle<Element> | null = await mangaChapterElementHandle.$(
             'td:nth-child(2)'
           );
-
-          const dateString: JSHandle<any> = await dateElement!.getProperty(
+          const mangaChapterTitleHandle: JSHandle = await mangaChapterTitleElement!.getProperty(
+            'innerText'
+          );
+          const mangaChapterLinkHandle: JSHandle<Element> = await mangaChapterTitleElement!.getProperty(
+            'href'
+          );
+          const mangaChapterDateHandle: JSHandle<Element> = await mangaChapterDateElement!.getProperty(
             'innerText'
           );
 
+          const mangaChapterTitleString: string = (await mangaChapterTitleHandle.jsonValue()) as string;
+          const mangaChapterLinkString: string = (await mangaChapterLinkHandle.jsonValue()) as string;
+          const mangaChapterDateString: string = (await mangaChapterDateHandle.jsonValue()) as string;
+
           return {
-            linkString: await linkString.jsonValue(),
-            chapterNumberString: await chapterNumberString.jsonValue(),
-            dateString: await dateString.jsonValue()
+            mangaChapterTitleString,
+            mangaChapterLinkString,
+            mangaChapterDateString
           };
         }
       );
 
-      const coverUrl = await coverHandle?.jsonValue();
+      const mangaLinkString: string = (await mangaCoverImageHandle!.jsonValue()) as string;
+      const mangaAuthorString: string = (await mangaAuthorHandle!.jsonValue()) as string;
+      const mangaArtistString: string = (await mangaArtistHandle!.jsonValue()) as string;
+      const mangaSummaryString: string = (await mangaSummaryHandle!.jsonValue()) as string;
+      const mangaChapters: Array<MangaChapter> = await Promise.all(
+        mangaChaptersMapping
+      );
 
-      const authorString = await authorHandle?.jsonValue();
-
-      const artistString = await artistHandle?.jsonValue();
-
-      const summaryString = await summaryHandle?.jsonValue();
-
-      const chapters = await Promise.all(tableHeadMapping);
-
-      const result = {
-        coverUrl,
-        requestUrl,
-        authorString,
-        artistString,
-        summaryString,
-        chapters
+      const mangaDetails: MangaDetails = {
+        mangaLinkString,
+        mangaAuthorString,
+        mangaArtistString,
+        mangaSummaryString,
+        mangaChapters
       };
 
       await browser.close();
 
-      res.send(result);
+      res.send(mangaDetails);
     } catch (err) {
       console.log(err);
     }
@@ -249,37 +261,37 @@ router.get(
       await page.click('div#swsc');
       await page.waitForSelector('div#in');
 
-      const chapterPagesElements: Array<ElementHandle> = await page.$$(
+      const chapterPagesElementHandles: Array<ElementHandle> = await page.$$(
         'div#in > div ~ div'
       );
 
-      const chapterPagesMapping: Array<Promise<any>> = chapterPagesElements.map(
-        async (result: ElementHandle): Promise<any> => {
-          const chapterImageElement: ElementHandle | null = await result.$(
+      const chapterPagesMapping: Array<
+        Promise<ChapterPage>
+      > = chapterPagesElementHandles.map(
+        async (chapterPageElement: ElementHandle): Promise<ChapterPage> => {
+          const chapterImageSrcElement: JSHandle<Element> | null = await chapterPageElement.$(
             'img'
           );
-          const chapterImageHandle:
-            | JSHandle<any>
-            | undefined = await chapterImageElement?.getProperty('src');
+          const chapterImageSrcHandle: JSHandle = await chapterImageSrcElement!.getProperty(
+            'src'
+          );
 
-          const widthHandle:
-            | JSHandle<any>
-            | undefined = await chapterImageElement?.getProperty('width');
+          const chapterWidthHandle: JSHandle = await chapterImageSrcElement!.getProperty(
+            'width'
+          );
 
-          const heightHandle:
-            | JSHandle<any>
-            | undefined = await chapterImageElement?.getProperty('height');
+          const chapterHeightHandle: JSHandle = await chapterImageSrcElement!.getProperty(
+            'height'
+          );
 
-          const imageWidth = await widthHandle?.jsonValue();
-
-          const imageHeight = await heightHandle?.jsonValue();
-
-          const chapterImageUrl: any = await chapterImageHandle?.jsonValue();
+          const chapterImageSrc: string = (await chapterImageSrcHandle!.jsonValue()) as string;
+          const chapterImageHeight: string = (await chapterHeightHandle!.jsonValue()) as string;
+          const chapterImageWidth: string = (await chapterWidthHandle!.jsonValue()) as string;
 
           return {
-            chapterImageUrl,
-            imageHeight,
-            imageWidth
+            chapterImageSrc,
+            chapterImageHeight,
+            chapterImageWidth
           };
         }
       );
@@ -340,15 +352,15 @@ router.get(
     //   const chapterImageElement: ElementHandle | null = await page.$("img#ci");
 
     //   const chapterImageHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("src");
 
     //   const widthHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("width");
 
     //   const heightHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("height");
 
     //   const imageWidth = await widthHandle?.jsonValue();
@@ -368,15 +380,15 @@ router.get(
     //   const chapterImageElement: ElementHandle | null = await page.$("img#ci");
 
     //   const chapterImageHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("src");
 
     //   const widthHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("width");
 
     //   const heightHandle:
-    //     | JSHandle<any>
+    //     | ElementHandle<Element>
     //     | undefined = await chapterImageElement?.getProperty("height");
 
     //   const imageWidth = await widthHandle?.jsonValue();
