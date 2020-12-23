@@ -80,33 +80,36 @@ router.get(
 
       const page: Page = await browser.newPage();
 
-      w
-        ? await page.goto(
-            'http://www.mangareader.net/search/?w=' +
-              w.trim().replace(' ', '+') +
-              '&rd=' +
-              rd +
-              '&status=' +
-              status +
-              '&order=' +
-              order +
-              '&genre=' +
-              genre,
-            { waitUntil: 'domcontentloaded', timeout: 10000 }
-          )
-        : await page.goto(
-            'http://www.mangareader.net/search/?w=' +
-              w +
-              '&rd=' +
-              rd +
-              '&status=' +
-              status +
-              '&order=' +
-              order +
-              '&genre=' +
-              genre,
-            { waitUntil: 'domcontentloaded', timeout: 10000 }
-          );
+      if (w) {
+        await page.goto(
+          'http://www.mangareader.net/search/?w=' +
+            w.trim().replace(' ', '+') +
+            '&rd=' +
+            rd +
+            '&status=' +
+            status +
+            '&order=' +
+            order +
+            '&genre=' +
+            genre,
+          { waitUntil: 'domcontentloaded', timeout: 10000 }
+        );
+      } else {
+        await page.goto(
+          'http://www.mangareader.net/search/?rd=' +
+            rd +
+            '&status=' +
+            status +
+            '&order=' +
+            order +
+            '&genre=' +
+            genre,
+          {
+            waitUntil: 'domcontentloaded',
+            timeout: 10000
+          }
+        );
+      }
 
       const searchResultElementHandles: Array<ElementHandle> = await page.$$(
         'div#ares > div.d54'
