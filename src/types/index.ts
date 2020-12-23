@@ -14,8 +14,6 @@ export type MangaChapter = {
 };
 
 export type MangaDetails = {
-  mangaTitleString: string;
-  mangaCoverUrlString: string;
   mangaLinkString: string;
   mangaAuthorString: string;
   mangaArtistString: string;
