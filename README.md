@@ -2,7 +2,7 @@
 
 Created by Beau Reescano - [Checkout my other stuff at webdeveloperbeau.com!](https://webdeveloperbeau.com)
 
-[Live at manga-back.webdeveloperbeau.com](https://www.mangareader.net/)
+[Live at manga-back.webdeveloperbeau.com](https://manga-back.webdeveloperbeau.com)
 
 [Source code here](https://github.com/JSONJuggler/MyMangaBackend)
 
@@ -24,12 +24,12 @@ GET `/api/manga/search` - Get filtered search results for requested manga using 
 
   ```typescript
   type SearchResult = {
-    searchResultImageSrcString: string,
-    searchResultTitleString: string,
-    searchResultLinkString: string,
-    searchResultChapterCountString: string,
-    searchResultReadDirectionString: string,
-    searchResultGenreString: string,
+    searchResultImageSrcString: string;
+    searchResultTitleString: string;
+    searchResultLinkString: string;
+    searchResultChapterCountString: string;
+    searchResultReadDirectionString: string;
+    searchResultGenreString: string;
   };
   ```
 
@@ -164,16 +164,16 @@ GET `/api/manga/details` - Get details of a manga
 
   ```typescript
   type MangaDetails = {
-    mangaImageSrcString: string,
-    mangaLinkString: string,
-    mangaAuthorString: string,
-    mangaArtistString: string,
-    mangaSummaryString: string,
+    mangaImageSrcString: string;
+    mangaLinkString: string;
+    mangaAuthorString: string;
+    mangaArtistString: string;
+    mangaSummaryString: string;
     mangaChapters: Array<{
-      mangaChapterTitleString: string,
-      mangaChapterLinkString: string,
-      mangaChapterDateString: string,
-    }>
+      mangaChapterTitleString: string;
+      mangaChapterLinkString: string;
+      mangaChapterDateString: string;
+    }>;
   };
   ```
 
@@ -218,9 +218,9 @@ GET `/api/manga/pages` - Get all pages/images of a specific manga
 
   ```typescript
   type ChapterPage = {
-    chapterImageSrcString: string,
-    chapterImageWidth: number,
-    chapterImageHeight: number,
+    chapterImageSrcString: string;
+    chapterImageWidth: number;
+    chapterImageHeight: number;
   };
   ```
 
